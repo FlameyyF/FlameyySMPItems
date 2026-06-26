@@ -1,0 +1,62 @@
+command /spawnaltar <text>:
+    permission: op
+    trigger:
+        if arg-1 is "cloudsplitter":
+            if {altar.cloudsplitter} is not set:
+                set block at location of player to lectern
+                set {_loc} to location of block at location of player
+                set {altar.cloudsplitter} to {_loc}
+                set yaw of {_loc} to 0
+                set pitch of {_loc} to 0
+
+                set {_cloudSplitterLoc} to {_loc} ~ vector(0, 1.3, 0)
+                spawn item display at {_cloudSplitterLoc}
+                set {_cloudsplitter} to last spawned item display
+                set item of {_cloudsplitter} to itemCloudsplitter()
+                set display scale of {_cloudsplitter} to vector(1, 1, 1)
+                set {altar.cloudsplitter.sword} to {_cloudsplitter}
+
+                set {_lines::*} to "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r", "&748x &fWind Charge", "&78x &fBreeze Rod", "&71x &fNetherite Sword", "&74x &fNetherite Ingot", "&71x <#5fe2c5>&lWeapon Handle" and "&71x &dHeavy Core"
+                set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
+                loop {_lines::*}:
+                    spawn text display at {_textLoc}
+                    set {_display} to last spawned text display
+                    add {_display} to {altar.cloudsplitter.entities::*}
+                    set text of {_display} to loop-value
+                    set billboard of {_display} to center
+                    set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
+
+                send "&aThe Cloudsplitter Altar has been spawned." to player
+            else:
+                send "&cThe Cloudsplitters Altar is already set, please use /deletealtar cloudsplitter" to player
+
+on tab complete for "/spawnaltar":
+    set tab completion for position 1 to "cloudsplitter"
+
+on tab complete for "/deletealtar":
+    set tab completion for position 1 to "cloudsplitter"
+
+command /deletealtar <text>:
+    permission: op
+    trigger:
+        if arg-1 is "cloudsplitter":
+            if {altar.cloudsplitter} is set:
+
+                set {_loc} to {altar.cloudsplitter}
+
+                set block at {_loc} to air
+
+                if {altar.cloudsplitter.sword} is set:
+                    kill {altar.cloudsplitter.sword}
+                    delete {altar.cloudsplitter.sword}
+
+                loop {altar.cloudsplitter.entities::*}:
+                    if loop-value is set:
+                        kill loop-value
+                delete {altar.cloudsplitter.entities::*}
+
+                delete {altar.cloudsplitter}
+
+                send "&cThe Cloudsplitter Altar has been deleted." to player
+            else:
+                send "&cThe Cloudsplitter Altar is not set." to player 

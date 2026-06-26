@@ -1,0 +1,9 @@
+function applyKnockback(p: player, e: living entity, YStrength: number, strength: number):
+    set {_dir} to vector from yaw {_p}'s yaw and pitch 0
+    set {_dir}.y to {_YStrength}  
+    set velocity of {_e} to {_dir} * {_strength}
+
+function applyPush(p: player, YStrength: number, strength: number):
+    set {_dir} to vector from yaw {_p}'s yaw and pitch 0
+    set {_dir}.y to {_YStrength}
+    set velocity of {_p} to {_dir} * {_strength}

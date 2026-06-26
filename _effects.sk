@@ -1,0 +1,5 @@
+every second:
+    loop all players:
+        if boolean tag "cloudsplitter" of custom nbt of loop-player's tool is true:
+            apply ambient weaving 1 to loop-player for 2 seconds replacing the existing effect
+            apply ambient speed 3 to loop-player for 2 seconds replacing the existing effect

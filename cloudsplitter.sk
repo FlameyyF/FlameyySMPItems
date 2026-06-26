@@ -1,0 +1,41 @@
+function itemCloudsplitter() :: item:
+    set {_i} to netherite sword of sharpness 5 and looting 3 named "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r"
+
+    set {_l::1} to "&8&oA blade conjured from the rapid speeds of the wind"
+    set {_l::2} to "%nl%&fPassive &8| &7You get &fWeaving I &7and &fSpeed III &7when held"
+    set {_l::4} to "%nl%<#a6dfee>ᴅᴀsʜ"
+    set {_l::5} to "&8🕘 40s <#a6dfee>• ᴏғғʜᴀɴᴅ"
+    set {_l::6} to "&7You dash forward, getting &fSpeed V&7 when landing."
+
+    set boolean tag "cloudsplitter" of custom nbt of {_i} to true
+
+    set lore of {_i} to {_l::*}
+
+    return {_i} with all item flags
+
+on swap item:
+    if boolean tag "cloudsplitter" of custom nbt of player's tool is true:
+        if {-clsdashCD::%player%} >= 0:
+            send "<#ff5b5b>Your Dash is still on cooldown for %{-clsdashCD::%player%}%s" to player#
+            cancel event
+            stop
+        set {-clsdashCD::%player%} to 41
+        cancel event
+        make player swing their main hand
+        set {-csp_landchck::%player%} to true
+        applyPush(player, 0.15, 3.5)
+        play sound "minecraft:entity.wind_charge.wind_burst" at player's location
+
+every 10 ticks:
+    loop all players:
+        if loop-player is on ground:
+            if {-csp_landchck::%loop-player%} is set:
+                delete {-csp_landchck::%loop-player%}
+                apply ambient speed 5 to loop-player for 5 seconds
+
+every second:
+    loop all players:
+        if {-clsdashCD::%loop-player%} >= 0:
+            remove 1 from {-clsdashCD::%loop-player%}
+            if {-clsdashCD::%loop-player%} >= 60:
+                round({-clsdashCD::%loop-player%} - 59, 0)
