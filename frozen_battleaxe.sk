@@ -1,0 +1,51 @@
+using damage sources
+
+function itemFrozenBattleaxe() :: item:
+    set {_i} to netherite axe named "<#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le"
+
+    set {_l::1} to "&8&oHmmm this feels a bit cold brrr"
+    set {_l::2} to "%nl%&fPassive &8| &7Every time you hit a entity they get &f2.5s&7 of &fFrostbite"
+    set {_l::4} to "%nl%<#a4ffeb>ɪᴄᴇᴄᴏʟᴅ sʟᴀsʜ"
+    set {_l::5} to "&8🕘 40s <#a4ffeb>• ᴏғғʜᴀɴᴅ"
+    set {_l::6} to "&7You strike forward dealing &f4.5 ❤&7 and give &fSlowness I"
+
+    set lore of {_i} to {_l::*}
+
+    set boolean tag "frozenBattleaxe" of custom nbt of {_i} to true
+
+    return {_i} with item flag hide enchants
+
+on damage:
+    if attack cooldown of attacker = 1:
+        if boolean tag "frozenBattleaxe" of custom nbt of attacker's tool is true:
+            add 5 seconds to freeze time of victim
+    else:
+        if boolean tag "frozenBattleaxe" of custom nbt of attacker's tool is true:
+            add 2.5 seconds to freeze time of victim
+
+on swap item:
+    if boolean tag "frozenBattleaxe" of custom nbt of player's tool is true:
+        if {-fBa.ics.CD::%player%} >= 0:
+            send "<#ff5b5b>Your Icecold Slash is still on cooldown for %{-fBa.ics.CD::%player%}%s" to player#
+            cancel event
+            stop
+        cancel event
+        applyPush(player, 0.15, 1)
+        wait 10 ticks
+        drawFlash(player, "parryable")
+        wait 0.5 seconds
+        make player swing their main hand
+        loop all players in radius 3 of player:
+            if loop-player is not player:
+                if {-parrying::%loop-player%} is not set:
+                    damage loop-player by 4.5 hearts using a custom damage source:
+                        set the damage type to freeze
+        set {-fBa.ics.CD::%player%} to 75
+
+every second:
+    loop all players:
+        if {-fBa.ics.CD::%loop-player%} is set:
+            if {-fBa.ics.CD::%loop-player%} is 0:
+                delete {-fBa.ics.CD::%loop-player%}
+                stop
+            remove 1 from {-fBa.ics.CD::%loop-player%}

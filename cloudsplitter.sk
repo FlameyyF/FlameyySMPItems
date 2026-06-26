@@ -11,7 +11,7 @@ function itemCloudsplitter() :: item:
 
     set lore of {_i} to {_l::*}
 
-    return {_i} with all item flags
+    return {_i} with item flag hide enchants
 
 on swap item:
     if boolean tag "cloudsplitter" of custom nbt of player's tool is true:
@@ -24,6 +24,7 @@ on swap item:
         make player swing their main hand
         set {-csp_landchck::%player%} to true
         applyPush(player, 0.15, 3.5)
+        drawFlash(player)
         play sound "minecraft:entity.wind_charge.wind_burst" at player's location
 
 every 10 ticks:
