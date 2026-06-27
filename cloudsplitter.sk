@@ -32,11 +32,12 @@ every 10 ticks:
         if loop-player is on ground:
             if {-csp_landchck::%loop-player%} is set:
                 delete {-csp_landchck::%loop-player%}
+                if {-sd.spl.Active::%loop-player%} is set:
+                    apply ambient speed 8 to loop-player for 5 seconds
+                    stop
                 apply ambient speed 5 to loop-player for 5 seconds
 
 every second:
     loop all players:
         if {-clsdashCD::%loop-player%} >= 0:
             remove 1 from {-clsdashCD::%loop-player%}
-            if {-clsdashCD::%loop-player%} >= 60:
-                round({-clsdashCD::%loop-player%} - 59, 0)

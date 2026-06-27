@@ -1,0 +1,51 @@
+function itemShadowDagger() :: item:
+    set {_i} to netherite sword named "<#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r"
+
+    set {_l::1} to "&8&oA piercing dagger that faints in the wind"
+    #set {_l::2} to "%nl%&fPassive &8| &7The Dagger is light-weight allowing you to attack faster"
+    set {_l::3} to "%nl%&fPassive &8| &7The user gets &fInvisibility I&7 when held"
+    set {_l::4} to "%nl%<#242424>sʜᴀᴅᴏᴡ ᴘʟᴀɴᴇ"
+    set {_l::5} to "&8🕘 45s <#242424>• ᴏғғʜᴀɴᴅ"
+    set {_l::6} to "&7You dash forward, vanishing into thin air for &f10 seconds&7 gaining &fSpeed IV&7 in this state."
+    set {_l::7} to "&7Jumping in this state makes you go way further, and you're immune to fall damage"
+
+    set boolean tag "shadow_dagger" of custom nbt of {_i} to true
+
+    set lore of {_i} to {_l::*}
+
+    return {_i} with item flag hide enchants
+
+on swap item:
+    if boolean tag "shadow_dagger" of custom nbt of player's tool is true:
+        if {-sd.spl.Active::%player%} is set:
+            send "<#5FE2C5>Your Shadow Plane is still active!"
+            cancel event
+            stop
+        if {-sd.spl.CD::%player%} >= 0:
+            send "<#ff5b5b>Your Shadow Plane is still on cooldown for %{-sd.spl.CD::%player%}%s"
+            cancel event
+            stop
+        cancel event
+        applyPush(player, 0.15, 1)
+        drawFlash(player) 
+        wait 0.5 seconds
+        set {-sd.spl.Active::%player%} to true
+        hide player
+        wait 10 seconds
+        reveal player
+        delete {-sd.spl.Active::%player%} 
+        set {-sd.spl.CD::%player%} to 45
+
+on jump:
+    if {-sd.spl.Active::%player%} is set:
+        applyPush(player, 0.35, 3)
+
+every second:
+    loop all players:
+        if {-sd.spl.CD::%loop-player%} >= 0:
+            remove 1 from {-sd.spl.CD::%loop-player%}
+
+on damage:
+    if damage cause is fall:
+        if {-sd.spl.Active::%victim%} is set:
+            cancel event

@@ -6,7 +6,7 @@ function itemFrozenBattleaxe() :: item:
     set {_l::1} to "&8&oHmmm this feels a bit cold brrr"
     set {_l::2} to "%nl%&fPassive &8| &7Every time you hit a entity they get &f2.5s&7 of &fFrostbite"
     set {_l::4} to "%nl%<#a4ffeb>ɪᴄᴇᴄᴏʟᴅ sʟᴀsʜ"
-    set {_l::5} to "&8🕘 40s <#a4ffeb>• ᴏғғʜᴀɴᴅ"
+    set {_l::5} to "&8🕘 1m 15s <#a4ffeb>• ᴏғғʜᴀɴᴅ"
     set {_l::6} to "&7You strike forward dealing &f4.5 ❤&7 and give &fSlowness III"
 
     set lore of {_i} to {_l::*}
@@ -46,7 +46,4 @@ on swap item:
 every second:
     loop all players:
         if {-fBa.ics.CD::%loop-player%} is set:
-            if {-fBa.ics.CD::%loop-player%} is 0:
-                delete {-fBa.ics.CD::%loop-player%}
-                stop
             remove 1 from {-fBa.ics.CD::%loop-player%}
