@@ -1,0 +1,69 @@
+on damage:
+    attacker and victim is a player
+    attacker is not victim
+    combat(attacker, 25 seconds)
+    combat(victim, 25 seconds)
+    # 2 tick elytra fix for both players
+    if {-anomalies::*} does not contain "The Purge":
+        set {_slot_attacker} to attacker's chestplate slot
+        set {_slot_victim} to victim's chestplate slot
+        if {_slot_attacker} is elytra:
+            set attacker's chestplate slot to air
+            wait 2 ticks
+            set attacker's chestplate slot to {_slot_attacker}
+        if {_slot_victim} is elytra:
+            set victim's chestplate slot to air
+            wait 2 ticks
+            set victim's chestplate slot to {_slot_victim}
+
+
+function clearcmb():
+    loop all players:
+        delete boolean tag "isInCombat" of custom nbt of loop-player
+        delete {-combat::%uuid of loop-player%}
+
+function combat(p: player, t: timespan):
+    if boolean tag "isInCombat" of custom nbt of {_p} is not set:
+        set boolean tag "isInCombat" of custom nbt of {_p} to true
+        set {-combat::%uuid of {_p}%} to {_t}
+
+        while {-combat::%uuid of {_p}%} is not 0 seconds:
+            remove 1 seconds from {-combat::%uuid of {_p}%}
+            send action bar "&cYou are in combat for &f%{-combat::%uuid of {_p}%}%" to {_p}
+
+            if {-combat::%uuid of {_p}%} is 0 seconds:
+                delete boolean tag "isInCombat" of custom nbt of {_p}
+                send action bar "&cYou are no longer in combat!" to {_p}
+            wait 1 second
+    else:
+        set {-combat::%uuid of {_p}%} to {_t}
+
+on death:
+    if victim is a player:
+        if boolean tag "isInCombat" of custom nbt of victim is true:
+            delete boolean tag "isInCombat" of custom nbt of victim
+            delete {-combat::%uuid of victim%}
+            send action bar "&cYou are no longer in combat!" to victim
+
+on quit:
+    if player is in combat:
+        delete boolean tag "isInCombat" of custom nbt of player
+        delete {-combat::%uuid of player%}
+        kill player
+
+condition %player% is [:not] in combat:
+    parse:
+        set {_not} to whether parse tags contain "not"
+        continue
+    check:
+        set {_combat} to boolean tag "isInCombat" of custom nbt of expr-1
+        if {_not} is true:
+            if {_combat} is not true:
+                return true
+            else:
+                return false
+        else:
+            if {_combat} is true:
+                return true
+            else:
+                return false

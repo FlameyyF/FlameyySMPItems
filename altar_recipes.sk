@@ -1,0 +1,82 @@
+on right click:
+    if event-location is {altar.cloudsplitter}:
+        if {altar.cloudsplitter.used} is not set:
+            if player has 1 heavy core:
+                if player has itemWeaponHandle():
+                    if player has 4 netherite ingots:
+                        if player has 1 diamond sword:
+                            if player has 8 breeze rods:
+                                if player has 48 wind charges:
+                                    if player has 24 flow armor trim smithing template:
+                                        play sound "minecraft:entity.wither.spawn" to all players
+                                        remove 1 heavy core from player
+                                        remove 1 diamond sword from player
+                                        remove itemWeaponHandle() from player
+                                        remove 4 netherite ingots from player
+                                        remove 8 breeze rods from player
+                                        remove 48 wind charges from player
+                                        remove 24 flow armor trim smithing templates from player
+                                        give player itemCloudsplitter()
+                                        broadcast "&6&l%player%&c has crafted the <#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r"
+                                        set {altar.cloudsplitter.used} to true
+                                        if {altar.cloudsplitter.sword} is set:
+                                            kill {altar.cloudsplitter.sword}
+                                            delete {altar.cloudsplitter.sword}
+        else:
+            send "<#ff5b5b>This Altar has been used!" to player
+
+    else if event-location is {altar.frozen_battleaxe}:
+        if {altar.frozen_battleaxe.used} is not set:
+            if player has 2 totem of undyings:
+                if player has itemWeaponHandle():
+                    if player has 4 netherite ingots:
+                        if player has 1 diamond axe:
+                            if player has 64 ice:
+                                if player has 64 packed ice:
+                                    if player has 64 blue ice:
+                                        if player has 128 snow block:
+                                            remove 2 totem of undying from player
+                                            remove 1 diamond axe from player
+                                            remove itemWeaponHandle() from player
+                                            remove 4 netherite ingots from player
+                                            remove 64 ice from player
+                                            remove 64 packed ice from player
+                                            remove 64 blue ice from player
+                                            remove 128 snow block from player
+                                            play sound "minecraft:entity.wither.spawn" to all players
+                                            give player itemFrozenBattleaxe()
+                                            broadcast "&6&l%player%&c has crafted the <#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le"
+                                            set {altar.frozen_battleaxe.used} to true
+                                            if {altar.frozen_battleaxe.axe} is set:
+                                                kill {altar.frozen_battleaxe.axe}
+                                                delete {altar.frozen_battleaxe.axe}
+        else:
+            send "<#ff5b5b>This Altar has been used!" to player
+
+    else if event-location is {altar.shadow_dagger}:
+        if {altar.shadow_dagger.used} is not set:
+            if player has 2 totem of undyings:
+                if player has itemWeaponHandle():
+                    if player has 16 silence armor trim smithing template:
+                        if player has 16 ward armor trim smithing template:
+                            if player has 64 black dye:
+                                if player has 32 ender pearl:
+                                    if player has diamond sword:
+                                        if player has 4 netherite ingot:
+                                            remove 2 totem of undying from player
+                                            remove 1 diamond sword from player
+                                            remove itemWeaponHandle() from player
+                                            remove 4 netherite ingots from player
+                                            remove 64 black dye from player
+                                            remove 32 ender pearl from player
+                                            remove 16 silence armor trim smithing template from player
+                                            remove 16 ward armor trim smithing template from player
+                                            play sound "minecraft:entity.wither.spawn" to all players
+                                            give player itemShadowDagger()
+                                            broadcast "&6&l%player%&c has crafted the <#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r"
+                                            set {altar.shadow_dagger.used} to true
+                                            if {altar.shadow_dagger.sword} is set:
+                                                kill {altar.shadow_dagger.sword}
+                                                delete {altar.shadow_dagger.sword}
+        else:
+            send "<#ff5b5b>This Altar has been used!" to player

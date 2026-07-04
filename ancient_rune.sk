@@ -1,0 +1,23 @@
+function itemAncientRune() :: item:
+    set {_i} to prismarine crystals of mending 1 named "<#5fe2c5>&lA<#65e5c3>&ln<#6ae7c1>&lc<#70eabe>&li<#76edbc>&le<#7cefba>&ln<#81f2b8>&lt <#8df7b4>&lR<#93fab1>&lu<#98fcaf>&ln<#9effad>&le"
+
+    set {_l::1} to "&8&oA mysterious rune that holds the power of the lakes"
+    set {_l::2} to "%nl%<#5fe2c5>ғʟᴏᴡɪɴɢ ᴛɪᴅᴇ"
+    set {_l::3} to "&8🕘 -s <#5fe2c5>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7When held in offhand, you get &fWater Breathing&7 and &fDolphin's Grace&7."
+    set {_l::5} to "%nl%<#5fe2c5>ʜʏᴅʀᴏsᴄᴀʟɪɴɢ"
+    set {_l::6} to "&8🕘 -s <#5fe2c5>• ᴘᴀssɪᴠᴇ"
+    set {_l::7} to "&7When you are in rain, you get &fSpeed II&7, &fRegeneration III&7 and &fStrength II&7."
+    set {_l::8} to "%nl%<#5fe2c5>ʀɪᴘᴛɪᴅᴇ"
+    set {_l::9} to "&8🕘 1m 30s <#5fe2c5>• ʀɪɢʜᴛ-ᴄʟɪᴄᴋ"
+    set {_l::10} to "&7You riptide forward, when hitting the ground you damage all entities in a &f5x5&7 radius dealing &f6 ❤&7."
+
+    set boolean tag "ancientRune" of custom nbt of {_i} to true
+
+    set lore of {_i} to {_l::*}
+
+    return {_i} with all item flags
+
+on right click:
+    if boolean tag "ancientRune" of custom nbt of player's tool is true:
+        

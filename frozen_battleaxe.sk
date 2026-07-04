@@ -4,10 +4,12 @@ function itemFrozenBattleaxe() :: item:
     set {_i} to netherite axe named "<#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le"
 
     set {_l::1} to "&8&oHmmm this feels a bit cold brrr"
-    set {_l::2} to "%nl%&fPassive &8| &7Every time you hit a entity they get &f2.5s&7 of &fFrostbite"
-    set {_l::4} to "%nl%<#a4ffeb>ɪᴄᴇᴄᴏʟᴅ sʟᴀsʜ"
-    set {_l::5} to "&8🕘 1m 15s <#a4ffeb>• ᴏғғʜᴀɴᴅ"
-    set {_l::6} to "&7You strike forward dealing &f4.5 ❤&7 and give &fSlowness III"
+    set {_l::2} to "%nl%<#a4ffeb>ʙʟᴇᴇᴅɪɴɢ ɪᴄᴇ"
+    set {_l::3} to "&8🕘 -s <#a4ffeb>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7Every hit you add &f2.5s&7 of &fFreeze&7 to your target."
+    set {_l::5} to "%nl%<#a4ffeb>ɪᴄᴇᴄᴏʟᴅ sʟᴀsʜ"
+    set {_l::6} to "&8🕘 1m 15s <#a4ffeb>• ᴏғғʜᴀɴᴅ"
+    set {_l::8} to "&7You strike forward dealing &f4.5 ❤&7 and give &fSlowness III"
 
     set lore of {_i} to {_l::*}
 
@@ -32,15 +34,24 @@ on swap item:
         cancel event
         applyPush(player, 0.15, 1)
         wait 10 ticks
-        drawFlash(player, "parryable")
+        drawFlash(player, true)
         wait 0.5 seconds
         make player swing their main hand
         loop all players in radius 3 of player:
             if loop-player is not player:
-                if {-parrying::%loop-player%} is not set:
+                if {-isParrying::%loop-player%} is not set:
                     apply slowness 3 to loop-player for 10 seconds
+                    add 50 seconds to freeze time of loop-player
                     damage loop-player by 9 hearts using a custom damage source:
                         set the damage type to freeze
+                else:
+                    delete {-isParrying::%loop-player%}
+                    set {_loc} to location of player
+                    add 1 to y-coordinate of {_loc}
+                    draw 50 snowflake particle with extra 1.25 at {_loc}
+                    applyKnockback(player, player, 1.25, 1)
+                    damage player by 9 hearts using a custom damage source:
+                        set the damage type to explosion
         set {-fBa.ics.CD::%player%} to 75
 
 every second:

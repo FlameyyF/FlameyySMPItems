@@ -3,7 +3,7 @@ command /spawnaltar <text>:
     trigger:
         if arg-1 is "cloudsplitter":
             if {altar.cloudsplitter} is not set:
-                set block at location of player to lectern
+                set block at location of player to reinforced deepslate
                 set {_loc} to location of block at location of player
                 set {altar.cloudsplitter} to {_loc}
                 set yaw of {_loc} to 0
@@ -16,7 +16,7 @@ command /spawnaltar <text>:
                 set display scale of {_cloudsplitter} to vector(1, 1, 1)
                 set {altar.cloudsplitter.sword} to {_cloudsplitter}
 
-                set {_lines::*} to "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r", "&724x &fFlow Armor Trim Smithing Template", "&748x &fWind Charge", "&78x &fBreeze Rod", "&71x &fNetherite Sword", "&74x &fNetherite Ingot", "&71x <#5fe2c5>&lWeapon Handle" and "&71x &dHeavy Core"
+                set {_lines::*} to "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r", "&724x &fFlow Armor Trim", "&748x &fWind Charge", "&78x &fBreeze Rod", "&71x &fNetherite Sword", "&74x &fNetherite Ingot", "&71x <#5fe2c5>&lWeapon Handle" and "&71x &dHeavy Core"
                 set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
                 loop {_lines::*}:
                     spawn text display at {_textLoc}
@@ -31,7 +31,7 @@ command /spawnaltar <text>:
                 send "&cThe Cloudsplitters Altar is already set, please use /deletealtar cloudsplitter" to player
         if arg-1 is "frozen_battleaxe":
             if {altar.frozen_battleaxe} is not set:
-                set block at location of player to lectern
+                set block at location of player to reinforced deepslate
                 set {_loc} to location of block at location of player
                 set {altar.frozen_battleaxe} to {_loc}
                 set yaw of {_loc} to 0
@@ -42,9 +42,9 @@ command /spawnaltar <text>:
                 set {_frozenbattleaxe} to last spawned item display
                 set item of {_frozenbattleaxe} to itemFrozenBattleaxe()
                 set display scale of {_frozenbattleaxe} to vector(1, 1, 1)
-                set {altar.frozen_battleaxe.axe} to {_cloudsplitter}
+                set {altar.frozen_battleaxe.axe} to {_frozenbattleaxe}
 
-                set {_lines::*} to "<#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le", "&7128x &fSnow", "&764x &fIce", "&764x &fPacked Ice", "&764x &fBlue Ice", "&74x &fNetherite Ingot", "&71x &fNetherite Axe", "&72x &eTotem of Undying" , "&71x <#5fe2c5>&lWeapon Handle"
+                set {_lines::*} to "<#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le", "&7128x &fSnow Block", "&764x &fIce", "&764x &fPacked Ice", "&764x &fBlue Ice", "&74x &fNetherite Ingot", "&71x &fNetherite Axe", "&72x &eTotem of Undying" , "&71x <#5fe2c5>&lWeapon Handle"
                 set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
                 loop {_lines::*}:
                     spawn text display at {_textLoc}
@@ -57,18 +57,49 @@ command /spawnaltar <text>:
                 send "&aThe Frozen Battleaxe Altar has been spawned." to player
             else:
                 send "&cThe Frozen Battleaxes Altar is already set, please use /deletealtar frozen_battleaxe" to player
+        if arg-1 is "shadow_dagger":
+            if {altar.shadow_dagger} is not set:
+                set block at location of player to reinforced deepslate
+                set {_loc} to location of block at location of player
+                set {altar.shadow_dagger} to {_loc}
+                set yaw of {_loc} to 0
+                set pitch of {_loc} to 0
+
+                set {_shadowDaggerLoc} to {_loc} ~ vector(0, 1.3, 0)
+                spawn item display at {_shadowDaggerLoc}
+                set {_shadowdagger} to last spawned item display
+                set item of {_shadowdagger} to itemShadowDagger()
+                set display scale of {_shadowdagger} to vector(1, 1, 1)
+                set {altar.shadow_dagger.sword} to {_shadowdagger}
+
+                set {_lines::*} to "<#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r", "&732x &fEnder Pearl", "&764x &fBlack Dye", "&74x &fNetherite Ingot", "&71x &fNetherite Sword", "&72x &eTotem of Undying", "&716x &bWard Armor Trim", "&71x <#5fe2c5>&lWeapon Handle", "&716x &dSilence Armor Trim"
+                set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
+                loop {_lines::*}:
+                    spawn text display at {_textLoc}
+                    set {_display} to last spawned text display
+                    add {_display} to {altar.shadow_dagger.entities::*}
+                    set text of {_display} to loop-value
+                    set billboard of {_display} to center
+                    set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
+
+                send "&aThe Shadow Dagger Altar has been spawned." to player
+            else:
+                send "&cThe Shadow Daggers Altar is already set, please use /deletealtar frozen_battleaxe" to player
 
 on tab complete for "/spawnaltar":
-    set tab completion for position 1 to "cloudsplitter", "frozen_battleaxe"
+    set tab completion for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger"
 
 on tab complete for "/deletealtar":
-    set tab completion for position 1 to "cloudsplitter", "frozen_battleaxe"
+    set tab completion for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger"
 
 command /deletealtar <text>:
     permission: op
     trigger:
         if arg-1 is "cloudsplitter":
             if {altar.cloudsplitter} is set:
+
+                if {altar.cloudsplitter.used} is set:
+                    delete {altar.cloudsplitter.used}
 
                 set {_loc} to {altar.cloudsplitter}
 
@@ -91,6 +122,9 @@ command /deletealtar <text>:
         if arg-1 is "frozen_battleaxe":
             if {altar.frozen_battleaxe} is set:
 
+                if {altar.frozen_battleaxe.used} is set:
+                    delete {altar.frozen_battleaxe.used}
+
                 set {_loc} to {altar.frozen_battleaxe}
 
                 set block at {_loc} to air
@@ -109,3 +143,24 @@ command /deletealtar <text>:
                 send "&cThe Frozen Battleaxe Altar has been deleted." to player
             else:
                 send "&cThe Frozen Battleaxe Altar is not set." to player 
+        if arg-1 is "shadow_dagger":
+            if {altar.shadow_dagger} is set:
+
+                set {_loc} to {altar.shadow_dagger}
+
+                set block at {_loc} to air
+
+                if {altar.shadow_dagger.sword} is set:
+                    kill {altar.shadow_dagger.sword}
+                    delete {altar.shadow_dagger.sword}
+
+                loop {altar.shadow_dagger.entities::*}:
+                    if loop-value is set:
+                        kill loop-value
+                delete {altar.shadow_dagger.entities::*}
+
+                delete {altar.shadow_dagger}
+
+                send "&cThe Shadow Dagger Altar has been deleted." to player
+            else:
+                send "&cThe Shadow Dagger Altar is not set." to player 

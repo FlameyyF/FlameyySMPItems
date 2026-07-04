@@ -2,10 +2,12 @@ function itemCloudsplitter() :: item:
     set {_i} to netherite sword of sharpness 5 and looting 3 named "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r"
 
     set {_l::1} to "&8&oA blade conjured from the rapid speeds of the wind"
-    set {_l::2} to "%nl%&fPassive &8| &7You get &fWeaving I &7and &fSpeed III &7when held"
-    set {_l::4} to "%nl%<#a6dfee>ᴅᴀsʜ"
-    set {_l::5} to "&8🕘 40s <#a6dfee>• ᴏғғʜᴀɴᴅ"
-    set {_l::6} to "&7You dash forward, getting &fSpeed V&7 when landing."
+    set {_l::2} to "%nl%<#a6dfee>ғʟᴏᴡ sᴛᴀᴛᴇ"
+    set {_l::3} to "&8🕘 -s <#a6dfee>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7When held, you get &fWeaving I&7 and &fSpeed III&7."
+    set {_l::5} to "%nl%<#a6dfee>ᴅᴀsʜ"
+    set {_l::6} to "&8🕘 40s <#a6dfee>• ᴏғғʜᴀɴᴅ"
+    set {_l::7} to "&7You dash forward, getting &fSpeed V&7 when landing."
 
     set boolean tag "cloudsplitter" of custom nbt of {_i} to true
 

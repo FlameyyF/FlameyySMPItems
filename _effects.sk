@@ -7,3 +7,19 @@ every second:
             apply ambient invisibility 1 to loop-player for 2 seconds replacing the existing effect
         if {-sd.spl.Active::%loop-player%} is set:
             apply ambient speed 4 to loop-player for 2 seconds replacing the existing effect
+        if boolean tag "ancientRune" of custom nbt of loop-player's offhand tool is true:
+            apply ambient water breathing 1 to loop-player for 2 seconds replacing the existing effect
+            apply ambient dolphin's grace 1 to loop-player for 2 seconds replacing the existing effect
+            if loop-player is wet:
+                apply ambient speed 2 to loop-player for 2 seconds replacing the existing effect
+                apply ambient strength 2 to loop-player for 2 seconds replacing the existing effect
+                apply ambient regeneration 3 to loop-player for 2 seconds replacing the existing effect
+
+every 0.25 second:
+    loop all players:
+        if {-sd.spl.Active::%loop-player%} is set:
+            draw 1 electric spark particle at loop-player's location
+        if boolean tag "ancientRune" of custom nbt of loop-player's offhand tool is true:
+            set {_loc} to loop-player's location
+            add 2.25 to y-coordinate of {_loc}
+            draw 1 dripping water particle at {_loc}

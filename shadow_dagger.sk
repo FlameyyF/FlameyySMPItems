@@ -1,13 +1,16 @@
+using damage sources
+
 function itemShadowDagger() :: item:
     set {_i} to netherite sword named "<#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r"
 
     set {_l::1} to "&8&oA piercing dagger that faints in the wind"
-    #set {_l::2} to "%nl%&fPassive &8| &7The Dagger is light-weight allowing you to attack faster"
-    set {_l::3} to "%nl%&fPassive &8| &7The user gets &fInvisibility I&7 when held"
-    set {_l::4} to "%nl%<#242424>sʜᴀᴅᴏᴡ ᴘʟᴀɴᴇ"
-    set {_l::5} to "&8🕘 45s <#242424>• ᴏғғʜᴀɴᴅ"
-    set {_l::6} to "&7You dash forward, vanishing into thin air for &f10 seconds&7 gaining &fSpeed IV&7 in this state."
-    set {_l::7} to "&7Jumping in this state makes you go way further, and you're immune to fall damage"
+    set {_l::2} to "%nl%<#242424>sɴᴇᴀᴋ 100"
+    set {_l::3} to "&8🕘 -s <#242424>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7The user gets &fInvisibility I&7 when held"
+    set {_l::5} to "%nl%<#242424>sʜᴀᴅᴏᴡ ᴘʟᴀɴᴇ"
+    set {_l::6} to "&8🕘 45s <#242424>• ᴏғғʜᴀɴᴅ"
+    set {_l::7} to "&7You dash forward, vanishing into thin air for &f10 seconds&7 gaining &fSpeed IV&7 in this state."
+    set {_l::8} to "&7Jumping in this state makes you go way further, and you're immune to fall damage"
 
     set boolean tag "shadow_dagger" of custom nbt of {_i} to true
 
@@ -31,10 +34,18 @@ on swap item:
         wait 0.5 seconds
         set {-sd.spl.Active::%player%} to true
         hide player
-        wait 10 seconds
-        reveal player
+        wait 9.5 seconds
         delete {-sd.spl.Active::%player%} 
         set {-sd.spl.CD::%player%} to 45
+        drawFlash(player, true)
+        wait 0.5 seconds
+        reveal player
+        loop all players in radius 5 of player:
+            if {-isParrying::%loop-player%} is set:
+                delete {-isParrying::%loop-player%}
+                applyPush(player, 1.25, 1)
+                damage player by 45 using a custom damage source:
+                    set the damage type to magic
 
 on jump:
     if {-sd.spl.Active::%player%} is set:

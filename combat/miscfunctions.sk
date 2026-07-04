@@ -1,0 +1,54 @@
+function applyKnockback(p: player, e: living entity, YStrength: number, strength: number):
+    set {_dir} to vector from yaw {_p}'s yaw and pitch 0
+    set {_dir}.y to {_YStrength}  
+    set velocity of {_e} to {_dir} * {_strength}
+
+function applyPush(p: player, YStrength: number, strength: number):
+    set {_dir} to vector from yaw {_p}'s yaw and pitch 0
+    set {_dir}.y to {_YStrength}
+    set velocity of {_p} to {_dir} * {_strength}
+     
+function drawFlash(p: player, isParryable: boolean = false):
+    if {_isParryable} is false:
+        set {_loc} to location 1 meters infront of {_p}
+        add 1 to y-coordinate of {_loc}
+        play sound "minecraft:entity.experience_orb.pickup" at {_loc}
+        draw 15 dust particle using dustOption(rgb(0, 105, 210), 1) at {_loc}
+    else if {_isParryable} is true:
+        set {_loc} to location 1 meters infront of {_p}
+        add 1 to y-coordinate of {_loc}
+        play sound "minecraft:entity.experience_orb.pickup" at {_loc}
+        draw 15 dust particle using dustOption(rgb(255, 246, 120), 1) at {_loc}
+
+command getitems <text>:
+    permission: op
+    trigger:
+        if arg-1 is "frozen_battleaxe":
+            give 2 totem of undying to player
+            give 1 diamond axe to player
+            give itemWeaponHandle() to player
+            give 4 netherite ingots to player
+            give 64 ice to player
+            give 64 packed ice to player
+            give 64 blue ice to player
+            give 128 snow block to player
+        if arg-1 is "cloudsplitter":
+            give 1 heavy core to player
+            give 1 diamond sword to player
+            give itemWeaponHandle() to player
+            give 4 netherite ingots to player
+            give 8 breeze rods to player
+            give 48 wind charges to player
+            give 24 flow armor trim smithing templates to player
+        if arg-1 is "shadow_dagger":
+            give 2 totem of undying to player
+            give 1 diamond sword to player
+            give itemWeaponHandle() to player
+            give 4 netherite ingots to player
+            give 64 black dye to player
+            give 32 ender pearl to player
+            give 16 silence armor trim smithing template to player
+            give 16 ward armor trim smithing template to player
+
+on tab complete for "/getitems":
+    set tab completions for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger"
