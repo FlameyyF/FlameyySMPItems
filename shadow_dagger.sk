@@ -24,7 +24,7 @@ on swap item:
             send "<#5FE2C5>Your Shadow Plane is still active!"
             cancel event
             stop
-        if {-sd.spl.CD::%player%} >= 0:
+        if {-sd.spl.CD::%player%} > 0:
             send "<#ff5b5b>Your Shadow Plane is still on cooldown for %{-sd.spl.CD::%player%}%s"
             cancel event
             stop
@@ -44,8 +44,7 @@ on swap item:
             if {-isParrying::%loop-player%} is set:
                 delete {-isParrying::%loop-player%}
                 applyPush(player, 1.25, 1)
-                damage player by 45 using a custom damage source:
-                    set the damage type to magic
+                applyDamage(player, 12, magic, true)
 
 on jump:
     if {-sd.spl.Active::%player%} is set:

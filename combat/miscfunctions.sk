@@ -1,3 +1,5 @@
+using damage sources
+
 function applyKnockback(p: player, e: living entity, YStrength: number, strength: number):
     set {_dir} to vector from yaw {_p}'s yaw and pitch 0
     set {_dir}.y to {_YStrength}  
@@ -19,6 +21,223 @@ function drawFlash(p: player, isParryable: boolean = false):
         add 1 to y-coordinate of {_loc}
         play sound "minecraft:entity.experience_orb.pickup" at {_loc}
         draw 15 dust particle using dustOption(rgb(255, 246, 120), 1) at {_loc}
+
+function drawShapes(loc: location, startRadius: number, endRadius: number, step: number, color1: color, color2: color, speed: number = 4):
+    if {_startRadius} > {_endRadius}:
+        stop
+
+    set {_current} to {_startRadius}
+
+    while {_current} <= {_endRadius}:
+        loop {_speed} times:
+            if {_current} > {_endRadius}:
+                stop loop
+
+            set {_c1} to a circle of radius {_current}
+            set {_c2} to a circle of radius {_current}
+
+            set particle of {_c1} to dust particle using dustOption({_color1}, 1) with force
+            set particle of {_c2} to dust particle using dustOption({_color2}, 1) with force
+
+            draw shape {_c1} at {_loc}
+            draw shape {_c2} at {_loc}
+
+            add {_step} to {_current}
+
+        wait 1 tick
+
+function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolean = false):
+    if {_isTrue} is true:
+
+        set {_armorDamage::helmet} to round({_dmg} * 0.9)
+        set {_armorDamage::chestplate} to round({_dmg} * 1.2)
+        set {_armorDamage::leggings} to round({_dmg} * 1.1)
+        set {_armorDamage::boots} to round({_dmg} * 0.8)
+
+        if helmet of {_p} is not air:
+            set {_unbreaking} to unbreaking level of helmet of {_p}
+
+            subtract ({_unbreaking} / 4) from {_armorDamage::helmet}
+
+            if {_armorDamage::helmet} < 0:
+                set {_armorDamage::helmet} to 0
+
+            damage helmet of {_p} by round({_armorDamage::helmet})
+
+        if chestplate of {_p} is not air:
+            set {_unbreaking} to unbreaking level of chestplate of {_p}
+
+            subtract ({_unbreaking} / 4) from {_armorDamage::chestplate}
+
+            if {_armorDamage::chestplate} < 0:
+                set {_armorDamage::chestplate} to 0
+
+            damage chestplate of {_p} by round({_armorDamage::chestplate})
+
+        if leggings of {_p} is not air:
+            set {_unbreaking} to unbreaking level of leggings of {_p}
+
+            subtract ({_unbreaking} / 4) from {_armorDamage::leggings}
+
+            if {_armorDamage::leggings} < 0:
+                set {_armorDamage::leggings} to 0
+
+            damage leggings of {_p} by round({_armorDamage::leggings})
+
+        if boots of {_p} is not air:
+            set {_unbreaking} to unbreaking level of boots of {_p}
+
+            subtract ({_unbreaking} / 4) from {_armorDamage::boots}
+
+            if {_armorDamage::boots} < 0:
+                set {_armorDamage::boots} to 0
+
+            damage boots of {_p} by round({_armorDamage::boots})
+
+        set {_heavyArmor} to 0
+
+        if helmet of {_p} is diamond helmet or netherite helmet:
+            add 1 to {_heavyArmor}
+        if chestplate of {_p} is diamond chestplate or netherite chestplate:
+            add 1 to {_heavyArmor}
+        if leggings of {_p} is diamond leggings or netherite leggings:
+            add 1 to {_heavyArmor}
+        if boots of {_p} is diamond boots or netherite boots:
+            add 1 to {_heavyArmor}
+
+        subtract {_heavyArmor} * 0.25 from {_dmg}
+
+        set {_prot} to 0
+
+        if helmet of {_p} is set:
+            add protection level of helmet of {_p} to {_prot}
+        if chestplate of {_p} is set:
+            add protection level of chestplate of {_p} to {_prot}
+        if leggings of {_p} is set:
+            add protection level of leggings of {_p} to {_prot}
+        if boots of {_p} is set:
+            add protection level of boots of {_p} to {_prot}
+
+        set {_reduction} to ({_prot} / 4) - 0.5
+        if {_reduction} < 0:
+            set {_reduction} to 0
+        subtract {_reduction} from {_dmg}
+
+        set {_resistance} to amplifier of resistance of {_p}
+
+        if {_resistance} > 0:
+            set {_reduction} to {_dmg} * 0.15
+            set {_reduction} to {_reduction} * {_resistance}
+            subtract {_reduction} from {_dmg}
+
+        if absorption amount of {_p} / 2 > 0:
+            if absorption amount of {_p} / 2 >= {_dmg}:
+                remove {_dmg} from absorption amount of {_p}
+                set {_dmg} to 0
+            else:
+                subtract absorption amount of {_p} / 2 from {_dmg}
+                set absorption amount of {_p} to 0
+
+        if {_dmg} < 0:
+            set {_dmg} to 0
+
+        if {_dmg} >= {_p}'s health:
+            damage {_p} by {_dmg} * 5 using custom damage source:
+                set the damage type to {_source}
+            stop
+
+        set {_p}'s health to {_p}'s health - {_dmg}
+
+        wait 1 tick
+        damage {_p} by 0.1 using custom damage source:
+            set the damage type to {_source}
+    else:
+        damage {_p} by {_dmg} using custom damage source:
+            set the damage type to {_source}
+
+command damagecalculator <number> <integer> [<integer>] [<integer>] [<boolean>]:
+    usage: /damagecalculator <damage> <protection> [<resistance>] [<unbreaking level>] [<is diamond/netherite armor>]
+    trigger:
+
+        set {_p} to player
+        set {_dmg} to arg-1
+        send "starter: %{_dmg}%" to {_p}
+
+        set {_prot} to 0
+        add arg-2 to {_prot}
+        add arg-2 to {_prot}
+        add arg-2 to {_prot}
+        add arg-2 to {_prot}
+
+        # Protection reduction
+        set {_reduction} to ({_prot} / 4) - 0.5
+        if {_reduction} < 0:
+            set {_reduction} to 0
+        subtract {_reduction} from {_dmg}
+
+        send "with prot: %{_dmg}%" to {_p}
+
+        set {_resistance} to arg-3
+
+        if {_resistance} > 0:
+            set {_reduction} to {_dmg} * 0.15
+            set {_reduction} to {_reduction} * {_resistance}
+            subtract {_reduction} from {_dmg}
+
+        if arg-5 is true:
+            subtract 1 from {_dmg}
+        else:
+            send "no heavy (diamond) armor -1" to {_p}
+
+        send "final &o(with resistance if any)&f: %{_dmg}%" to {_p}
+
+        if {_dmg} < 0:
+            set {_dmg} to 0
+
+        set {_armorDamage::helmet} to round({_dmg} * 0.9)
+        set {_armorDamage::chestplate} to round({_dmg} * 1.2)
+        set {_armorDamage::leggings} to round({_dmg} * 1.1)
+        set {_armorDamage::boots} to round({_dmg} * 0.8)
+
+        # Helmet
+        set {_unbreaking} to arg-4
+
+        subtract ({_unbreaking} / 4) from {_armorDamage::helmet}
+
+        if {_armorDamage::helmet} < 0:
+            set {_armorDamage::helmet} to 0
+
+        send "helmet damage: %{_armorDamage::helmet}%" to {_p}
+
+        # Chestplate
+        set {_unbreaking} to arg-4
+
+        subtract ({_unbreaking} / 4) from {_armorDamage::chestplate}
+
+        if {_armorDamage::chestplate} < 0:
+            set {_armorDamage::chestplate} to 0
+
+        send "chestplate damage: %{_armorDamage::chestplate}%" to {_p}
+
+        # Leggings
+        set {_unbreaking} to arg-4
+
+        subtract ({_unbreaking} / 4) from {_armorDamage::leggings}
+
+        if {_armorDamage::leggings} < 0:
+            set {_armorDamage::leggings} to 0
+
+        send "legs damage: %{_armorDamage::leggings}%" to {_p}
+
+        # Boots
+        set {_unbreaking} to arg-4
+
+        subtract ({_unbreaking} / 4) from {_armorDamage::boots}
+
+        if {_armorDamage::boots} < 0:
+            set {_armorDamage::boots} to 0
+
+        send "boots damage: %{_armorDamage::boots}%" to {_p}
 
 command getitems <text>:
     permission: op

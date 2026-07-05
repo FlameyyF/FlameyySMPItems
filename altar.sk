@@ -84,7 +84,35 @@ command /spawnaltar <text>:
 
                 send "&aThe Shadow Dagger Altar has been spawned." to player
             else:
-                send "&cThe Shadow Daggers Altar is already set, please use /deletealtar frozen_battleaxe" to player
+                send "&cThe Shadow Daggers Altar is already set, please use /deletealtar shadow_dagger" to player
+        if arg-1 is "ancient_rune":
+            if {altar.shadow_dagger} is not set:
+                set block at location of player to reinforced deepslate
+                set {_loc} to location of block at location of player
+                set {altar.shadow_dagger} to {_loc}
+                set yaw of {_loc} to 0
+                set pitch of {_loc} to 0
+
+                set {_shadowDaggerLoc} to {_loc} ~ vector(0, 1.3, 0)
+                spawn item display at {_shadowDaggerLoc}
+                set {_shadowdagger} to last spawned item display
+                set item of {_shadowdagger} to itemShadowDagger()
+                set display scale of {_shadowdagger} to vector(1, 1, 1)
+                set {altar.shadow_dagger.sword} to {_shadowdagger}
+
+                set {_lines::*} to "<#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r", "&732x &fEnder Pearl", "&764x &fBlack Dye", "&74x &fNetherite Ingot", "&71x &fNetherite Sword", "&72x &eTotem of Undying", "&716x &bWard Armor Trim", "&71x <#5fe2c5>&lWeapon Handle", "&716x &dSilence Armor Trim"
+                set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
+                loop {_lines::*}:
+                    spawn text display at {_textLoc}
+                    set {_display} to last spawned text display
+                    add {_display} to {altar.shadow_dagger.entities::*}
+                    set text of {_display} to loop-value
+                    set billboard of {_display} to center
+                    set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
+
+                send "&aThe Shadow Dagger Altar has been spawned." to player
+            else:
+                send "&cThe Shadow Daggers Altar is already set, please use /deletealtar shadow_dagger" to player
 
 on tab complete for "/spawnaltar":
     set tab completion for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger"

@@ -27,7 +27,7 @@ on damage:
 
 on swap item:
     if boolean tag "frozenBattleaxe" of custom nbt of player's tool is true:
-        if {-fBa.ics.CD::%player%} >= 0:
+        if {-fBa.ics.CD::%player%} > 0:
             send "<#ff5b5b>Your Icecold Slash is still on cooldown for %{-fBa.ics.CD::%player%}%s" to player#
             cancel event
             stop
@@ -42,16 +42,14 @@ on swap item:
                 if {-isParrying::%loop-player%} is not set:
                     apply slowness 3 to loop-player for 10 seconds
                     add 50 seconds to freeze time of loop-player
-                    damage loop-player by 9 hearts using a custom damage source:
-                        set the damage type to freeze
+                    applyDamage(player, 9, freeze)
                 else:
                     delete {-isParrying::%loop-player%}
                     set {_loc} to location of player
                     add 1 to y-coordinate of {_loc}
                     draw 50 snowflake particle with extra 1.25 at {_loc}
                     applyKnockback(player, player, 1.25, 1)
-                    damage player by 9 hearts using a custom damage source:
-                        set the damage type to explosion
+                    applyDamage(player, 18, freeze, true)
         set {-fBa.ics.CD::%player%} to 75
 
 every second:

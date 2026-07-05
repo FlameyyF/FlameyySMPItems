@@ -1,0 +1,29 @@
+every 5 tick:
+    loop all players:
+        # Helmet
+        if helmet of loop-player is set:
+            if helmet of loop-player is not air:
+                if damage of helmet of loop-player >= max durability of helmet of loop-player:
+                    play sound "entity.item.break" at loop-player
+                    set helmet of loop-player to air
+
+        # Chestplate
+        if chestplate of loop-player is set:
+            if chestplate of loop-player is not air:
+                if damage of chestplate of loop-player >= max durability of chestplate of loop-player:
+                    play sound "entity.item.break" at loop-player
+                    set chestplate of loop-player to air
+
+        # Leggings
+        if leggings of loop-player is set:
+            if leggings of loop-player is not air:
+                if damage of leggings of loop-player >= max durability of leggings of loop-player:
+                    play sound "entity.item.break" at loop-player
+                    set leggings of loop-player to air
+
+        # Boots
+        if boots of loop-player is set:
+            if boots of loop-player is not air:
+                if damage of boots of loop-player >= max durability of boots of loop-player:
+                    play sound "entity.item.break" at loop-player
+                    set boots of loop-player to air

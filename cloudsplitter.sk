@@ -17,7 +17,7 @@ function itemCloudsplitter() :: item:
 
 on swap item:
     if boolean tag "cloudsplitter" of custom nbt of player's tool is true:
-        if {-clsdashCD::%player%} >= 0:
+        if {-clsdashCD::%player%} > 0:
             send "<#ff5b5b>Your Dash is still on cooldown for %{-clsdashCD::%player%}%s" to player#
             cancel event
             stop
