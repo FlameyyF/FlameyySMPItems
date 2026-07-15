@@ -14,6 +14,19 @@ function itemShadowDagger() :: item:
 
     set boolean tag "shadow_dagger" of custom nbt of {_i} to true
 
+    apply attribute modifier to {_i}:
+        attribute: attack damage
+        slot: mainhand_slot_group
+        id: "minecraft:base_attack_damage"
+        amount: 6.5
+        operation: add_number
+    apply attribute modifier to {_i}:
+        attribute: attack speed
+        slot: mainhand_slot_group
+        id: "minecraft:base_attack_speed"
+        amount: -2.0
+        operation: add_number
+
     set lore of {_i} to {_l::*}
 
     return {_i} with item flag hide enchants
@@ -45,6 +58,12 @@ on swap item:
                 delete {-isParrying::%loop-player%}
                 applyPush(player, 1.25, 1)
                 applyDamage(player, 12, magic, true)
+                set {_values::player} to loop-player
+
+                set {_event} to new custom event "parry" using event-values {_values::*}
+                call event {_event}
+            else:
+                applyDamage(loop-player, 4, magic, true)
 
 on jump:
     if {-sd.spl.Active::%player%} is set:

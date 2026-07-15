@@ -239,7 +239,7 @@ command damagecalculator <number> <integer> [<integer>] [<integer>] [<boolean>]:
 
         send "boots damage: %{_armorDamage::boots}%" to {_p}
 
-command getitems <text>:
+command /getitems <text>:
     permission: op
     trigger:
         if arg-1 is "frozen_battleaxe":
@@ -251,7 +251,8 @@ command getitems <text>:
             give 64 packed ice to player
             give 64 blue ice to player
             give 128 snow block to player
-        if arg-1 is "cloudsplitter":
+
+        else if arg-1 is "cloudsplitter":
             give 1 heavy core to player
             give 1 diamond sword to player
             give itemWeaponHandle() to player
@@ -259,7 +260,8 @@ command getitems <text>:
             give 8 breeze rods to player
             give 48 wind charges to player
             give 24 flow armor trim smithing templates to player
-        if arg-1 is "shadow_dagger":
+
+        else if arg-1 is "shadow_dagger":
             give 2 totem of undying to player
             give 1 diamond sword to player
             give itemWeaponHandle() to player
@@ -269,5 +271,40 @@ command getitems <text>:
             give 16 silence armor trim smithing template to player
             give 16 ward armor trim smithing template to player
 
+        else if arg-1 is "ancient_rune":
+            give 2 enchanted golden apple to player
+            give 8 echo shard to player
+            give 16 flow armor trim smithing template to player
+            give 16 tide armor trim smithing template to player
+            give 1 trident to player
+            give 8 nautilus shell to player
+            give 2 heart of the sea to player
+            give 32 prismarine shard to player
+            give 32 prismarine crystals to player
+
+        else if arg-1 is "reinforced_glove":
+            give 64 leather to player
+            give 32 iron block to player
+            give 4 netherite ingots to player
+            give 1 diamond sword to player
+            give 16 bolt armor trim smithing template to player
+            give itemWeaponHandle() to player
+            give 1 heavy core to player
+            give 16 silence armor trim smithing template to player
+
+        else if arg-1 is "shard_shooter":
+            give 64 amethyst shard to player
+            give 32 arrow to player
+            give 4 netherite ingots to player
+            give 1 crossbow to player
+            give 2 totem of undying to player
+            give 16 sentry armor trim smithing template to player
+            give itemWeaponHandle() to player
+            give 16 silence armor trim smithing template to player
+
 on tab complete for "/getitems":
-    set tab completions for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger"
+    set tab completions for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger", "ancient_rune", "reinforced_glove", "shard_shooter"
+
+event "parry":
+    pattern: parry
+    event-values: player, entity

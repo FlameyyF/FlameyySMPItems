@@ -1,194 +1,165 @@
+
+function registerAltar(id: text, displayName: text, item: item, lines: strings):
+    if {_id} is not in {registeredAltars::*}:
+        add {_id} to {registeredAltars::*}
+
+    set {altarConfig.%{_id}%.name} to {_displayName}
+    set {altarConfig.%{_id}%.item} to {_item}
+    delete {altarConfig.%{_id}%.lines::*}
+    set {altarConfig.%{_id}%.lines::*} to {_lines::*}
+
+function spawnAltar(id: text, p: player):
+    if {altar.%{_id}%} is not set:
+        set block at location of {_p} to reinforced deepslate
+        set {_loc} to location of block at location of {_p}
+        set {altar.%{_id}%} to {_loc}
+        set yaw of {_loc} to 0
+        set pitch of {_loc} to 0
+
+        set {_itemLoc} to {_loc} ~ vector(0, 1.3, 0)
+        spawn item display at {_itemLoc}
+        set {_display} to last spawned item display
+        set item of {_display} to {altarConfig.%{_id}%.item}
+        set display scale of {_display} to vector(1, 1, 1)
+        set {altar.%{_id}%.display} to {_display}
+
+        set {_lines::*} to {altarConfig.%{_id}%.lines::*}
+        set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
+        loop {_lines::*}:
+            spawn text display at {_textLoc}
+            set {_text} to last spawned text display
+            add {_text} to {altar.%{_id}%.entities::*}
+            set text of {_text} to loop-value
+            set billboard of {_text} to center
+            set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
+
+        send "&aThe %{altarConfig.%{_id}%.name}% Altar has been spawned." to {_p}
+    else:
+        send "&cThe %{altarConfig.%{_id}%.name}% Altar is already set, please use /deletealtar %{_id}%" to {_p}
+
+function deleteAltar(id: text, p: player):
+    if {altar.%{_id}%} is set:
+        delete {altar.%{_id}%.used}
+
+        set {_loc} to {altar.%{_id}%}
+        set block at {_loc} to air
+
+        if {altar.%{_id}%.display} is set:
+            kill {altar.%{_id}%.display}
+            delete {altar.%{_id}%.display}
+
+        loop {altar.%{_id}%.entities::*}:
+            if loop-value is set:
+                kill loop-value
+        delete {altar.%{_id}%.entities::*}
+
+        delete {altar.%{_id}%}
+
+        send "&cThe %{altarConfig.%{_id}%.name}% Altar has been deleted." to {_p}
+    else:
+        send "&cThe %{altarConfig.%{_id}%.name}% Altar is not set." to {_p}
+
+on load:
+    delete {registeredAltars::*}
+    delete {_lines::*}
+    add "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r" to {_lines::*}
+    add "&724x &fFlow Armor Trim" to {_lines::*}
+    add "&748x &fWind Charge" to {_lines::*}
+    add "&78x &fBreeze Rod" to {_lines::*}
+    add "&71x &fDiamond Sword" to {_lines::*}
+    add "&74x &fNetherite Ingot" to {_lines::*}
+    add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
+    add "&71x &dHeavy Core" to {_lines::*}
+    registerAltar("cloudsplitter", "Cloudsplitter", itemCloudsplitter(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le" to {_lines::*}
+    add "&7128x &fSnow Block" to {_lines::*}
+    add "&764x &fIce" to {_lines::*}
+    add "&764x &fPacked Ice" to {_lines::*}
+    add "&764x &fBlue Ice" to {_lines::*}
+    add "&74x &fNetherite Ingot" to {_lines::*}
+    add "&71x &fDiamond Axe" to {_lines::*}
+    add "&72x &eTotem of Undying" to {_lines::*}
+    add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
+    registerAltar("frozen_battleaxe", "Frozen Battleaxe", itemFrozenBattleaxe(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r" to {_lines::*}
+    add "&732x &fEnder Pearl" to {_lines::*}
+    add "&764x &fBlack Dye" to {_lines::*}
+    add "&74x &fNetherite Ingot" to {_lines::*}
+    add "&71x &fDiamond Sword" to {_lines::*}
+    add "&72x &eTotem of Undying" to {_lines::*}
+    add "&716x &bWard Armor Trim" to {_lines::*}
+    add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
+    add "&716x &dSilence Armor Trim" to {_lines::*}
+    registerAltar("shadow_dagger", "Shadow Dagger", itemShadowDagger(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#5fe2c5>&lA<#65e5c3>&ln<#6ae7c1>&lc<#70eabe>&li<#76edbc>&le<#7cefba>&ln<#81f2b8>&lt <#8df7b4>&lR<#93fab1>&lu<#98fcaf>&ln<#9effad>&le" to {_lines::*}
+    add "&732x &fPrismarine Crystals" to {_lines::*}
+    add "&732x &fPrismarine Shards" to {_lines::*}
+    add "&72x &fHeart of the Sea" to {_lines::*}
+    add "&78x &fNautilus Shell" to {_lines::*}
+    add "&71x &fTrident" to {_lines::*}
+    add "&716x &bTide Armor Trim" to {_lines::*}
+    add "&716x &bFlow Armor Trim" to {_lines::*}
+    add "&78x &bEcho Shard" to {_lines::*}
+    add "&72x &bEnchanted Golden Apple" to {_lines::*}
+    registerAltar("ancient_rune", "Ancient Rune", itemAncientRune(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#ef7272>R<#e86a6a>e<#e26363>i<#db5b5b>n<#d55454>f<#ce4c4c>o<#c84444>r<#c13d3d>c<#bb3535>e<#b42e2e>d <#a71e1e>G<#a11717>l<#9a0f0f>o<#940808>v<#8d0000>e" to {_lines::*}
+    add "&764x &fLeather" to {_lines::*}
+    add "&732x &fIron Block" to {_lines::*}
+    add "&74x &fNetherite Ingot" to {_lines::*}
+    add "&71x &fDiamond Sword" to {_lines::*}
+    add "&716x &bBolt Armor Trim" to {_lines::*}
+    add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
+    add "&71x &dHeavy Core" to {_lines::*}
+    add "&716x &dSilence Armor Trim" to {_lines::*}
+
+    registerAltar("reinforced_glove", "Reinforced Glove", itemReinforcedGlove(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#f2c6de>S<#f1bad8>h<#f0afd2>a<#efa3cc>r<#ed97c6>d <#eb80ba>S<#ea74b4>h<#e969ae>o<#e85da8>o<#e651a2>t<#e5469c>e<#e43a96>r" to {_lines::*}
+    add "&764x &fAmethyst Shard" to {_lines::*}
+    add "&732x &fArrow" to {_lines::*}
+    add "&74x &fNetherite Ingot" to {_lines::*}
+    add "&71x &fCrossbow" to {_lines::*}
+    add "&72x &eTotem of Undying" to {_lines::*}
+    add "&716x &bSentry Armor Trim" to {_lines::*}
+    add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
+    add "&716x &dSilence Armor Trim" to {_lines::*}
+
+    registerAltar("shard_shooter", "Shard Shooter", itemShardShooter(), {_lines::*})
+
 command /spawnaltar <text>:
     permission: op
     trigger:
-        if arg-1 is "cloudsplitter":
-            if {altar.cloudsplitter} is not set:
-                set block at location of player to reinforced deepslate
-                set {_loc} to location of block at location of player
-                set {altar.cloudsplitter} to {_loc}
-                set yaw of {_loc} to 0
-                set pitch of {_loc} to 0
-
-                set {_cloudSplitterLoc} to {_loc} ~ vector(0, 1.3, 0)
-                spawn item display at {_cloudSplitterLoc}
-                set {_cloudsplitter} to last spawned item display
-                set item of {_cloudsplitter} to itemCloudsplitter()
-                set display scale of {_cloudsplitter} to vector(1, 1, 1)
-                set {altar.cloudsplitter.sword} to {_cloudsplitter}
-
-                set {_lines::*} to "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r", "&724x &fFlow Armor Trim", "&748x &fWind Charge", "&78x &fBreeze Rod", "&71x &fNetherite Sword", "&74x &fNetherite Ingot", "&71x <#5fe2c5>&lWeapon Handle" and "&71x &dHeavy Core"
-                set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
-                loop {_lines::*}:
-                    spawn text display at {_textLoc}
-                    set {_display} to last spawned text display
-                    add {_display} to {altar.cloudsplitter.entities::*}
-                    set text of {_display} to loop-value
-                    set billboard of {_display} to center
-                    set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
-
-                send "&aThe Cloudsplitter Altar has been spawned." to player
-            else:
-                send "&cThe Cloudsplitters Altar is already set, please use /deletealtar cloudsplitter" to player
-        if arg-1 is "frozen_battleaxe":
-            if {altar.frozen_battleaxe} is not set:
-                set block at location of player to reinforced deepslate
-                set {_loc} to location of block at location of player
-                set {altar.frozen_battleaxe} to {_loc}
-                set yaw of {_loc} to 0
-                set pitch of {_loc} to 0
-
-                set {_frozenBattleaxeLoc} to {_loc} ~ vector(0, 1.3, 0)
-                spawn item display at {_frozenBattleaxeLoc}
-                set {_frozenbattleaxe} to last spawned item display
-                set item of {_frozenbattleaxe} to itemFrozenBattleaxe()
-                set display scale of {_frozenbattleaxe} to vector(1, 1, 1)
-                set {altar.frozen_battleaxe.axe} to {_frozenbattleaxe}
-
-                set {_lines::*} to "<#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le", "&7128x &fSnow Block", "&764x &fIce", "&764x &fPacked Ice", "&764x &fBlue Ice", "&74x &fNetherite Ingot", "&71x &fNetherite Axe", "&72x &eTotem of Undying" , "&71x <#5fe2c5>&lWeapon Handle"
-                set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
-                loop {_lines::*}:
-                    spawn text display at {_textLoc}
-                    set {_display} to last spawned text display
-                    add {_display} to {altar.frozen_battleaxe.entities::*}
-                    set text of {_display} to loop-value
-                    set billboard of {_display} to center
-                    set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
-
-                send "&aThe Frozen Battleaxe Altar has been spawned." to player
-            else:
-                send "&cThe Frozen Battleaxes Altar is already set, please use /deletealtar frozen_battleaxe" to player
-        if arg-1 is "shadow_dagger":
-            if {altar.shadow_dagger} is not set:
-                set block at location of player to reinforced deepslate
-                set {_loc} to location of block at location of player
-                set {altar.shadow_dagger} to {_loc}
-                set yaw of {_loc} to 0
-                set pitch of {_loc} to 0
-
-                set {_shadowDaggerLoc} to {_loc} ~ vector(0, 1.3, 0)
-                spawn item display at {_shadowDaggerLoc}
-                set {_shadowdagger} to last spawned item display
-                set item of {_shadowdagger} to itemShadowDagger()
-                set display scale of {_shadowdagger} to vector(1, 1, 1)
-                set {altar.shadow_dagger.sword} to {_shadowdagger}
-
-                set {_lines::*} to "<#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r", "&732x &fEnder Pearl", "&764x &fBlack Dye", "&74x &fNetherite Ingot", "&71x &fNetherite Sword", "&72x &eTotem of Undying", "&716x &bWard Armor Trim", "&71x <#5fe2c5>&lWeapon Handle", "&716x &dSilence Armor Trim"
-                set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
-                loop {_lines::*}:
-                    spawn text display at {_textLoc}
-                    set {_display} to last spawned text display
-                    add {_display} to {altar.shadow_dagger.entities::*}
-                    set text of {_display} to loop-value
-                    set billboard of {_display} to center
-                    set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
-
-                send "&aThe Shadow Dagger Altar has been spawned." to player
-            else:
-                send "&cThe Shadow Daggers Altar is already set, please use /deletealtar shadow_dagger" to player
-        if arg-1 is "ancient_rune":
-            if {altar.shadow_dagger} is not set:
-                set block at location of player to reinforced deepslate
-                set {_loc} to location of block at location of player
-                set {altar.shadow_dagger} to {_loc}
-                set yaw of {_loc} to 0
-                set pitch of {_loc} to 0
-
-                set {_shadowDaggerLoc} to {_loc} ~ vector(0, 1.3, 0)
-                spawn item display at {_shadowDaggerLoc}
-                set {_shadowdagger} to last spawned item display
-                set item of {_shadowdagger} to itemShadowDagger()
-                set display scale of {_shadowdagger} to vector(1, 1, 1)
-                set {altar.shadow_dagger.sword} to {_shadowdagger}
-
-                set {_lines::*} to "<#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r", "&732x &fEnder Pearl", "&764x &fBlack Dye", "&74x &fNetherite Ingot", "&71x &fNetherite Sword", "&72x &eTotem of Undying", "&716x &bWard Armor Trim", "&71x <#5fe2c5>&lWeapon Handle", "&716x &dSilence Armor Trim"
-                set {_textLoc} to {_loc} ~ vector(0, 2.1, 0)
-                loop {_lines::*}:
-                    spawn text display at {_textLoc}
-                    set {_display} to last spawned text display
-                    add {_display} to {altar.shadow_dagger.entities::*}
-                    set text of {_display} to loop-value
-                    set billboard of {_display} to center
-                    set {_textLoc} to {_textLoc} ~ vector(0, 0.25, 0)
-
-                send "&aThe Shadow Dagger Altar has been spawned." to player
-            else:
-                send "&cThe Shadow Daggers Altar is already set, please use /deletealtar shadow_dagger" to player
-
-on tab complete for "/spawnaltar":
-    set tab completion for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger"
-
-on tab complete for "/deletealtar":
-    set tab completion for position 1 to "cloudsplitter", "frozen_battleaxe", "shadow_dagger"
+        if {registeredAltars::*} contains arg-1:
+            spawnAltar(arg-1, player)
+        else:
+            send "&cUnknown altar type: %arg-1%" to player
 
 command /deletealtar <text>:
     permission: op
     trigger:
-        if arg-1 is "cloudsplitter":
-            if {altar.cloudsplitter} is set:
+        if {registeredAltars::*} contains arg-1:
+            deleteAltar(arg-1, player)
+        else:
+            send "&cUnknown altar type: %arg-1%" to player
 
-                if {altar.cloudsplitter.used} is set:
-                    delete {altar.cloudsplitter.used}
+on tab complete for "/spawnaltar":
+    set tab completion for position 1 to {registeredAltars::*}
 
-                set {_loc} to {altar.cloudsplitter}
+on tab complete for "/deletealtar":
+    set tab completion for position 1 to {registeredAltars::*}
 
-                set block at {_loc} to air
-
-                if {altar.cloudsplitter.sword} is set:
-                    kill {altar.cloudsplitter.sword}
-                    delete {altar.cloudsplitter.sword}
-
-                loop {altar.cloudsplitter.entities::*}:
-                    if loop-value is set:
-                        kill loop-value
-                delete {altar.cloudsplitter.entities::*}
-
-                delete {altar.cloudsplitter}
-
-                send "&cThe Cloudsplitter Altar has been deleted." to player
-            else:
-                send "&cThe Cloudsplitter Altar is not set." to player 
-        if arg-1 is "frozen_battleaxe":
-            if {altar.frozen_battleaxe} is set:
-
-                if {altar.frozen_battleaxe.used} is set:
-                    delete {altar.frozen_battleaxe.used}
-
-                set {_loc} to {altar.frozen_battleaxe}
-
-                set block at {_loc} to air
-
-                if {altar.frozen_battleaxe.axe} is set:
-                    kill {altar.frozen_battleaxe.axe}
-                    delete {altar.frozen_battleaxe.axe}
-
-                loop {altar.frozen_battleaxe.entities::*}:
-                    if loop-value is set:
-                        kill loop-value
-                delete {altar.frozen_battleaxe.entities::*}
-
-                delete {altar.frozen_battleaxe}
-
-                send "&cThe Frozen Battleaxe Altar has been deleted." to player
-            else:
-                send "&cThe Frozen Battleaxe Altar is not set." to player 
-        if arg-1 is "shadow_dagger":
-            if {altar.shadow_dagger} is set:
-
-                set {_loc} to {altar.shadow_dagger}
-
-                set block at {_loc} to air
-
-                if {altar.shadow_dagger.sword} is set:
-                    kill {altar.shadow_dagger.sword}
-                    delete {altar.shadow_dagger.sword}
-
-                loop {altar.shadow_dagger.entities::*}:
-                    if loop-value is set:
-                        kill loop-value
-                delete {altar.shadow_dagger.entities::*}
-
-                delete {altar.shadow_dagger}
-
-                send "&cThe Shadow Dagger Altar has been deleted." to player
-            else:
-                send "&cThe Shadow Dagger Altar is not set." to player 
+command /debugaltar:
+    permission: op
+    trigger:
+        send "&eRegistered: %{registeredAltars::*}%"
+        send "&eShard Config: %{altarConfig.shard_shooter.name}%"
+        send "&eShard Location: %{altar.shard_shooter}%"

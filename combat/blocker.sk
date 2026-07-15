@@ -95,7 +95,7 @@ on crafter craft:
         loop all players in radius 5 of event-location:
             send "&cNice Try." to loop-player
 
-every 5 seconds:
+every 10 seconds:
     loop all players:
         loop all items in loop-player's inventory:
             if loop-item is enchanted with protection 4:
@@ -115,27 +115,6 @@ on right click:
         if player is in combat:
             cancel event
 
-on shoot:
-    if shooter is in combat:
-        if event-projectile is a thrown potion:
-            if potion type of shooter's tool is slow_falling or long_slow_falling or turtle_master or long_turtle_master or strong_turtle_master:
-                cancel event
-            if potion type of shooter's offhand item is slow_falling or long_slow_falling or turtle_master or long_turtle_master or strong_turtle_master:
-                cancel event
-    else:
-        if event-projectile is a thrown potion:
-            if potion type of shooter's tool is strong_strength or strong_swiftness:
-                cancel event
-            if potion type of shooter's offhand item is strong_strength or strong_swiftness:
-                cancel event
-
-on consume:
-    if event-item = potion of turtle master or potion of swiftness:
-        if player is in combat:
-            cancel event
-    if event-item = potion of strong strength or potion of strong speed:
-        cancel event
-
 on uncancelled resurrect attempt:
     if event-entity is in combat:
         if boolean tag "totemUsed" of custom nbt of event-entity is true:
@@ -147,10 +126,18 @@ on death:
     if boolean tag "totemUsed" of custom nbt of victim is true:
         set boolean tag "totemUsed" of custom nbt of victim to false
 
-every 15 seconds:
-    loop all players:
-        if boolean tag "totemUsed" of custom nbt of loop-player is true:
-            if loop-player is in combat:
-                stop
-            else:
-                set boolean tag "totemUsed" of custom nbt of loop-player to false
+#every 15 seconds:
+ #   loop all players:
+  #      if boolean tag "totemUsed" of custom nbt of loop-player is true:
+   #         if loop-player is in combat:
+    #            stop
+     #       else:
+      #          set boolean tag "totemUsed" of custom nbt of loop-player to false
+
+on explode:
+    event-entity is creeper
+    clear exploded blocks
+
+on death:
+    if attacker is victim:
+        cancel event

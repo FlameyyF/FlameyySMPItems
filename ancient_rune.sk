@@ -30,6 +30,7 @@ on right click:
         if {-arun.riptide.CD::%player%} > 0:
             send "<#ff5b5b>Your Riptide is still on cooldown for %{-arun.riptide.CD::%player%}%s" to player
             stop
+        set {-arun.riptide.CD::%player%} to 90
         drawFlash(player)
         wait 0.5 seconds
         play sound "minecraft:block.beacon.power_select"
@@ -46,15 +47,14 @@ on right click:
                 drawShapes(player's location, 0.75, 5, 0.25, rgb(0, 183, 168), rgb(113, 206, 193), 2)
                 loop all players in radius 5 of player:
                     if {-isParrying::%loop-player%} is not set:
-                        applyDamage(player, 6, drown, true)
-                    else:
-                        stop loop
+                        applyDamage(loop-player, 6, drown, true)
     if player is sneaking:
         if boolean tag "ancientRune" of custom nbt of player's offhand tool is true:
             if {-arun.riptide.CD::%player%} > 0:
                 send "<#ff5b5b>Your Riptide is still on cooldown for %{-arun.riptide.CD::%player%}%s" to player
                 stop
             drawFlash(player)
+            set {-arun.riptide.CD::%player%} to 105
             wait 0.5 seconds
             play sound "minecraft:block.beacon.power_select"
             play sound "minecraft:item.trident.riptide_3"
@@ -70,6 +70,9 @@ on right click:
                     drawShapes(player's location, 0.75, 10, 0.25, rgb(0, 183, 168), rgb(113, 206, 193), 4)
                     loop all players in radius 10 of player:
                         if {-isParrying::%loop-player%} is not set:
-                            applyDamage(player, 4, drown, true)
-                        else:
-                            stop loop
+                            applyDamage(loop-player, 4, drown, true)
+
+every second:
+    loop all players:
+        if {-arun.riptide.CD::%loop-player%} is set:
+            remove 1 from {-arun.riptide.CD::%loop-player%}

@@ -29,7 +29,7 @@ function combat(p: player, t: timespan):
 
         while {-combat::%uuid of {_p}%} is not 0 seconds:
             remove 1 seconds from {-combat::%uuid of {_p}%}
-            send action bar "&cYou are in combat for &f%{-combat::%uuid of {_p}%}%" to {_p}
+            #send action bar "&cYou are in combat for &f%{-combat::%uuid of {_p}%}%" to {_p}
 
             if {-combat::%uuid of {_p}%} is 0 seconds:
                 delete boolean tag "isInCombat" of custom nbt of {_p}

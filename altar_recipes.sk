@@ -1,82 +1,229 @@
 on right click:
     if event-location is {altar.cloudsplitter}:
         if {altar.cloudsplitter.used} is not set:
-            if player has 1 heavy core:
-                if player has itemWeaponHandle():
-                    if player has 4 netherite ingots:
-                        if player has 1 diamond sword:
-                            if player has 8 breeze rods:
-                                if player has 48 wind charges:
-                                    if player has 24 flow armor trim smithing template:
-                                        play sound "minecraft:entity.wither.spawn" to all players
-                                        remove 1 heavy core from player
-                                        remove 1 diamond sword from player
-                                        remove itemWeaponHandle() from player
-                                        remove 4 netherite ingots from player
-                                        remove 8 breeze rods from player
-                                        remove 48 wind charges from player
-                                        remove 24 flow armor trim smithing templates from player
-                                        give player itemCloudsplitter()
-                                        broadcast "&6&l%player%&c has crafted the <#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r"
-                                        set {altar.cloudsplitter.used} to true
-                                        if {altar.cloudsplitter.sword} is set:
-                                            kill {altar.cloudsplitter.sword}
-                                            delete {altar.cloudsplitter.sword}
+            if all:
+                player has 1 heavy core
+                player has itemWeaponHandle()
+                player has 4 netherite ingots
+                player has 1 diamond sword
+                player has 8 breeze rods
+                player has 48 wind charges
+                player has 24 flow armor trim smithing template
+            then:
+                play sound "minecraft:entity.wither.spawn" to all players
+                remove 1 heavy core from player
+                remove 1 diamond sword from player
+                remove itemWeaponHandle() from player
+                remove 4 netherite ingots from player
+                remove 8 breeze rods from player
+                remove 48 wind charges from player
+                remove 24 flow armor trim smithing templates from player
+                give player itemCloudsplitter()
+                broadcast "&6&l%player%&c has crafted the <#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r"
+                set {altar.cloudsplitter.used} to true
+                if {altar.cloudsplitter.display} is set:
+                    kill {altar.cloudsplitter.display}
+                    delete {altar.cloudsplitter.display}
+                create a new message and store it in {_msg}:
+                    make embed:
+                        set title of embed to "Item Crafted!"
+                        set description of embed to "%player% has crafted the Cloudsplitter"
+                        set embed color of embed to purple
+                    add last embed to the embeds of the message
+                post {_msg} to channel with id "1525264848735305938"
         else:
             send "<#ff5b5b>This Altar has been used!" to player
 
     else if event-location is {altar.frozen_battleaxe}:
         if {altar.frozen_battleaxe.used} is not set:
-            if player has 2 totem of undyings:
-                if player has itemWeaponHandle():
-                    if player has 4 netherite ingots:
-                        if player has 1 diamond axe:
-                            if player has 64 ice:
-                                if player has 64 packed ice:
-                                    if player has 64 blue ice:
-                                        if player has 128 snow block:
-                                            remove 2 totem of undying from player
-                                            remove 1 diamond axe from player
-                                            remove itemWeaponHandle() from player
-                                            remove 4 netherite ingots from player
-                                            remove 64 ice from player
-                                            remove 64 packed ice from player
-                                            remove 64 blue ice from player
-                                            remove 128 snow block from player
-                                            play sound "minecraft:entity.wither.spawn" to all players
-                                            give player itemFrozenBattleaxe()
-                                            broadcast "&6&l%player%&c has crafted the <#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le"
-                                            set {altar.frozen_battleaxe.used} to true
-                                            if {altar.frozen_battleaxe.axe} is set:
-                                                kill {altar.frozen_battleaxe.axe}
-                                                delete {altar.frozen_battleaxe.axe}
+            if all:
+                player has 2 totem of undyings
+                player has itemWeaponHandle()
+                player has 4 netherite ingots
+                player has 1 diamond axe
+                player has 64 ice
+                player has 64 packed ice
+                player has 64 blue ice
+                player has 128 snow block
+            then:
+                remove 2 totem of undying from player
+                remove 1 diamond axe from player
+                remove itemWeaponHandle() from player
+                remove 4 netherite ingots from player
+                remove 64 ice from player
+                remove 64 packed ice from player
+                remove 64 blue ice from player
+                remove 128 snow block from player
+                play sound "minecraft:entity.wither.spawn" to all players
+                give player itemFrozenBattleaxe()
+                broadcast "&6&l%player%&c has crafted the <#a4ffeb>&lF<#9ef8ea>&lr<#97f1e9>&lo<#91eae8>&lz<#8ae4e7>&le<#84dde6>&ln <#77cfe4>&lB<#71c8e2>&la<#6ac1e1>&lt<#64bae0>&lt<#5eb3df>&ll<#57adde>&le<#51a6dd>&la<#4a9fdc>&lx<#4498db>&le"
+                set {altar.frozen_battleaxe.used} to true
+                if {altar.frozen_battleaxe.display} is set:
+                    kill {altar.frozen_battleaxe.display}
+                    delete {altar.frozen_battleaxe.display}
+                create a new message and store it in {_msg}:
+                    make embed:
+                        set title of embed to "Item Crafted!"
+                        set description of embed to "%player% has crafted the Frozen Battleaxe"
+                        set embed color of embed to purple
+                    add last embed to the embeds of the message
+                post {_msg} to channel with id "1525264848735305938"
         else:
             send "<#ff5b5b>This Altar has been used!" to player
 
     else if event-location is {altar.shadow_dagger}:
         if {altar.shadow_dagger.used} is not set:
-            if player has 2 totem of undyings:
-                if player has itemWeaponHandle():
-                    if player has 16 silence armor trim smithing template:
-                        if player has 16 ward armor trim smithing template:
-                            if player has 64 black dye:
-                                if player has 32 ender pearl:
-                                    if player has diamond sword:
-                                        if player has 4 netherite ingot:
-                                            remove 2 totem of undying from player
-                                            remove 1 diamond sword from player
-                                            remove itemWeaponHandle() from player
-                                            remove 4 netherite ingots from player
-                                            remove 64 black dye from player
-                                            remove 32 ender pearl from player
-                                            remove 16 silence armor trim smithing template from player
-                                            remove 16 ward armor trim smithing template from player
-                                            play sound "minecraft:entity.wither.spawn" to all players
-                                            give player itemShadowDagger()
-                                            broadcast "&6&l%player%&c has crafted the <#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r"
-                                            set {altar.shadow_dagger.used} to true
-                                            if {altar.shadow_dagger.sword} is set:
-                                                kill {altar.shadow_dagger.sword}
-                                                delete {altar.shadow_dagger.sword}
+            if all:
+                player has 2 totem of undyings
+                player has itemWeaponHandle()
+                player has 16 silence armor trim smithing template
+                player has 16 ward armor trim smithing template
+                player has 64 black dye
+                player has 32 ender pearl
+                player has diamond sword
+                player has 4 netherite ingot
+            then:
+                remove 2 totem of undying from player
+                remove 1 diamond sword from player
+                remove itemWeaponHandle() from player
+                remove 4 netherite ingots from player
+                remove 64 black dye from player
+                remove 32 ender pearl from player
+                remove 16 silence armor trim smithing template from player
+                remove 16 ward armor trim smithing template from player
+                play sound "minecraft:entity.wither.spawn" to all players
+                give player itemShadowDagger()
+                broadcast "&6&l%player%&c has crafted the <#757575>S<#6c6c6c>h<#636363>a<#5a5a5a>d<#505050>o<#474747>w <#353535>D<#353535>a<#353535>g<#353535>g<#353535>e<#353535>r"
+                set {altar.shadow_dagger.used} to true
+                if {altar.shadow_dagger.display} is set:
+                    kill {altar.shadow_dagger.display}
+                    delete {altar.shadow_dagger.display}
+                create a new message and store it in {_msg}:
+                    make embed:
+                        set title of embed to "Item Crafted!"
+                        set description of embed to "%player% has crafted the Shadow Dagger"
+                        set embed color of embed to purple
+                    add last embed to the embeds of the message
+                post {_msg} to channel with id "1525264848735305938"
+        else:
+            send "<#ff5b5b>This Altar has been used!" to player
+    else if event-location is {altar.ancient_rune}:
+        if {altar.ancient_rune.used} is not set:
+            if all:
+                player has 2 enchanted golden apple
+                player has 8 echo shard
+                player has 16 flow armor trim smithing template
+                player has 16 tide armor trim smithing template
+                player has 1 trident
+                player has 8 nautilus shell
+                player has 2 heart of the sea
+                player has 32 prismarine shard
+                player has 32 prismarine crystals
+            then:
+                remove 2 enchanted golden apple from player
+                remove 8 echo shard from player
+                remove 16 flow armor trim smithing template from player
+                remove 16 tide armor trim smithing template from player
+                remove 1 trident from player
+                remove 8 nautilus shell from player
+                remove 2 heart of the sea from player
+                remove 32 prismarine shard from player
+                remove 32 prismarine crystals from player
+                play sound "minecraft:entity.wither.spawn" to all players
+                give player itemAncientRune()
+                broadcast "&6&l%player%&c has crafted the <#5fe2c5>&lA<#65e5c3>&ln<#6ae7c1>&lc<#70eabe>&li<#76edbc>&le<#7cefba>&ln<#81f2b8>&lt <#8df7b4>&lR<#93fab1>&lu<#98fcaf>&ln<#9effad>&le"
+                set {altar.ancient_rune.used} to true
+                if {altar.ancient_rune.display} is set:
+                    kill {altar.ancient_rune.display}
+                    delete {altar.ancient_rune.display}
+                create a new message and store it in {_msg}:
+                    make embed:
+                        set title of embed to "Item Crafted!"
+                        set description of embed to "%player% has crafted the Ancient Rune"
+                        set embed color of embed to purple
+                    add last embed to the embeds of the message
+                post {_msg} to channel with id "1525264848735305938"
+        else:
+            send "<#ff5b5b>This Altar has been used!" to player
+    else if event-location is {altar.reinforced_glove}:
+        if {altar.reinforced_glove.used} is not set:
+            if all:
+                player has 64 leather
+                player has 32 iron block
+                player has 4 netherite ingot
+                player has 1 diamond sword
+                player has 16 bolt armor trim smithing template
+                player has itemWeaponHandle()
+                player has 1 heavy core
+                player has 16 silence armor trim smithing template
+            then:
+                remove 64 leather from player
+                remove 32 iron block from player
+                remove 4 netherite ingot from player
+                remove 1 diamond sword from player
+                remove 16 bolt armor trim smithing template from player
+                remove itemWeaponHandle() from player
+                remove 1 heavy core from player
+                remove 16 silence armor trim smithing template from player
+
+                play sound "minecraft:entity.wither.spawn" to all players
+                give player itemReinforcedGlove()
+                broadcast "&6&l%player%&c has crafted the <#ef7272>R<#e86a6a>e<#e26363>i<#db5b5b>n<#d55454>f<#ce4c4c>o<#c84444>r<#c13d3d>c<#bb3535>e<#b42e2e>d <#a71e1e>G<#a11717>l<#9a0f0f>o<#940808>v<#8d0000>e"
+
+                set {altar.reinforced_glove.used} to true
+
+                if {altar.reinforced_glove.display} is set:
+                    kill {altar.reinforced_glove.display}
+                    delete {altar.reinforced_glove.display}
+
+                create a new message and store it in {_msg}:
+                    make embed:
+                        set title of embed to "Item Crafted!"
+                        set description of embed to "%player% has crafted the Reinforced Glove"
+                        set embed color of embed to purple
+                    add last embed to the embeds of the message
+
+                post {_msg} to channel with id "1525264848735305938"
+        else:
+            send "<#ff5b5b>This Altar has been used!" to player
+    else if event-location is {altar.shard_shooter}:
+        if {altar.shard_shooter.used} is not set:
+            if all:
+                player has 64 amethyst shard
+                player has 32 arrow
+                player has 4 netherite ingot
+                player has 1 crossbow
+                player has 2 totem of undying
+                player has 16 sentry armor trim smithing template
+                player has itemWeaponHandle()
+                player has 16 silence armor trim smithing template
+            then:
+                remove 64 amethyst shard from player
+                remove 32 arrow from player
+                remove 4 netherite ingot from player
+                remove 1 crossbow from player
+                remove 2 totem of undying from player
+                remove 16 sentry armor trim smithing template from player
+                remove itemWeaponHandle() from player
+                remove 16 silence armor trim smithing template from player
+
+                play sound "minecraft:entity.wither.spawn" to all players
+                give player itemShardShooter()
+                broadcast "&6&l%player%&c has crafted the <#f2c6de>S<#f1bad8>h<#f0afd2>a<#efa3cc>r<#ed97c6>d <#eb80ba>S<#ea74b4>h<#e969ae>o<#e85da8>o<#e651a2>t<#e5469c>e<#e43a96>r"
+
+                set {altar.shard_shooter.used} to true
+
+                if {altar.shard_shooter.display} is set:
+                    kill {altar.shard_shooter.display}
+                    delete {altar.shard_shooter.display}
+
+                create a new message and store it in {_msg}:
+                    make embed:
+                        set title of embed to "Item Crafted!"
+                        set description of embed to "%player% has crafted the Shard Shooter"
+                        set embed color of embed to purple
+                    add last embed to the embeds of the message
+
+                post {_msg} to channel with id "1525264848735305938"
         else:
             send "<#ff5b5b>This Altar has been used!" to player

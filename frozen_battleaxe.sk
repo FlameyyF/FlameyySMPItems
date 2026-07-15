@@ -41,15 +41,20 @@ on swap item:
             if loop-player is not player:
                 if {-isParrying::%loop-player%} is not set:
                     apply slowness 3 to loop-player for 10 seconds
+                    applyDamage(loop-player, 9, freeze, true)
+                    wait a tick
                     add 50 seconds to freeze time of loop-player
-                    applyDamage(player, 9, freeze)
                 else:
                     delete {-isParrying::%loop-player%}
                     set {_loc} to location of player
                     add 1 to y-coordinate of {_loc}
+                    set {_values::player} to loop-player
+
+                    set {_event} to new custom event "parry" using event-values {_values::*}
+                    call event {_event}
                     draw 50 snowflake particle with extra 1.25 at {_loc}
                     applyKnockback(player, player, 1.25, 1)
-                    applyDamage(player, 18, freeze, true)
+                    applyDamage(player, 9, freeze, true)
         set {-fBa.ics.CD::%player%} to 75
 
 every second:
