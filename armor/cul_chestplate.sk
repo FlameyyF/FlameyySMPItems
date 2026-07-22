@@ -1,0 +1,27 @@
+function itemCulChestplate() :: item:
+    set {_i} to unbreakable netherite chestplate named "<#fcd05c>C<#f6ca56>u<#f0c450>l <#e3b744>C<#ddb13e>h<#d7ab38>e<#d0a431>s<#ca9e2b>t<#c49825>p<#be921f>l<#b78b19>a<#b18513>t<#ab7f0d>e"
+
+    set {_l::1} to "&8&oCONDUCTION IS THE GOAT"
+    set {_l::2} to "%nl%<#fcd05c>ᴇʟᴇᴄᴛʀɪғɪᴄᴀᴛɪᴏɴ"
+    set {_l::3} to "&8🕘 -s <#fcd05c>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7When damaging a &fvictim &7you have a &f10%% &7chance%nl%&7to electrify &fall players &7in a &f10x10&7 radius dealing &f2.5 ❤&7 if wet then &f4.5 ❤"
+
+    set boolean tag "cul_chestplate " of custom nbt of {_i} to true
+
+    set armor trim of {_i} to armor trim from copper_material and silence_pattern
+
+    set lore of {_i} to {_l::*}
+
+    return {_i} with item flag hide enchants
+
+on damage:
+    if boolean tag "cul_chestplate " of custom nbt of attacker's chestplate is true:
+        chance of 20%:
+            loop all players in radius 10 of victim:
+                if loop-player is not attacker:
+                    if loop-player is wet:
+                        play sound "entity.lightning_bolt.thunder" at loop-player
+                        applyDamage(loop-player, 4.5, lightning bolt, true)
+                    else:
+                        play sound "entity.lightning_bolt.thunder" at loop-player
+                        applyDamage(loop-player, 2.5, lightning bolt, true)

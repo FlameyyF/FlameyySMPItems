@@ -87,13 +87,17 @@ on parry:
     set {_loc} to location 0.5 meters infront of event-player
     add 1 to y-coordinate of {_loc}
     play sound "minecraft:item.mace.smash_air" with pitch 1.25 at {_loc}
-    draw 1 flash particle using bukkitColor(0,255,255,255) at {_loc}
+    draw 5 flash particle using bukkitColor(0,255,255,255) at {_loc}
     heal event-player
     apply saturation 3 to event-player for 1 second
     apply resistance 1 to event-player for 2 minutes
     apply absorption 3 to event-player for 4 minutes
     set invulnerability time of event-player to 15 ticks 
-    delete {-isParrying::%player%}
+    delete {-isParrying::%event-player%}
+    wait a tick
+    set tick rate of event-player to 1 and freeze their animations
+    wait 6 ticks
+    set tick rate of event-player to 20
 
 every second:
     loop all players:

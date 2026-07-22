@@ -11,10 +11,10 @@ function itemAncientRune() :: item:
     set {_l::6} to "&8🕘 -s <#5fe2c5>• ᴘᴀssɪᴠᴇ"
     set {_l::7} to "&7When you are in rain, you get &fSpeed II&7, &fRegeneration III&7 and &fStrength II&7."
     set {_l::8} to "%nl%<#5fe2c5>ʀɪᴘᴛɪᴅᴇ"
-    set {_l::9} to "&8🕘 1m 30s <#5fe2c5>• ʀɪɢʜᴛ-ᴄʟɪᴄᴋ"
+    set {_l::9} to "&8🕘 1m 30s <#5fe2c5>• ʀᴍʙ"
     set {_l::10} to "&7You riptide forward, when hitting the ground you damage all entities in a &f5x5&7 radius dealing &f6 ❤&7."
     set {_l::11} to "%nl%<#5fe2c5>ʀɪᴘᴛɪᴅᴇ &7[ALT]"
-    set {_l::12} to "&8🕘 1m 45s <#5fe2c5>• ɪɴ ᴏғғʜᴀɴᴅ, sʜɪғᴛ + ʀɪɢʜᴛ-ᴄʟɪᴄᴋ"
+    set {_l::12} to "&8🕘 1m 45s <#5fe2c5>• ᴏғғʜᴀɴᴅᴇᴅ, sʜɪғᴛ + ʀᴍʙ"
     set {_l::13} to "&7You riptide forward, when hitting the ground you damage all entities in a &f10x10&7 radius dealing &f4 ❤&7."
 
     set boolean tag "ancientRune" of custom nbt of {_i} to true

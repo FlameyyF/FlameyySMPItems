@@ -1,0 +1,94 @@
+command /kits [<text>] [<text>]:
+    permission: op
+    aliases: kit
+    trigger:
+        if arg-1 is not set:
+            send "&6&lKits"
+            send "&e/kits claim <kit> &7- Claim a kit"
+            send "&e/kits list &7- View available kits"
+
+            if player has permission "kits.admin":
+                send "&e/kits create <name> &7- Create a kit"
+                send "&e/kits delete <name> &7- Delete a kit"
+            stop
+
+        if arg-1 is "list":
+            if {kits::*} is not set:
+                send "&cThere are no kits."
+                stop
+
+            send "&6Available Kits:"
+            loop {kits::*}:
+                send "&e- %loop-value%"
+            stop
+
+        if arg-1 is "create":
+            if player doesn't have permission "kits.admin":
+                send "&cYou don't have permission."
+                stop
+
+            if arg-2 is not set:
+                send "&cUsage: /kits create <name>"
+                stop
+
+            delete {kits::%arg-2%::inventory::*}
+            loop 41 times:
+                set {kits::%arg-2%::inventory::%loop-number - 1%} to slot (loop-number - 1) of player's inventory
+            set {kits::%arg-2%::armor::*} to player's armor
+
+            if {kits::*} does not contain arg-2:
+                add arg-2 to {kits::*}
+
+            send "&aCreated kit '&e%arg-2%&a'."
+            stop
+
+        if arg-1 is "delete":
+            if player doesn't have permission "kits.admin":
+                send "&cYou don't have permission."
+                stop
+
+            if arg-2 is not set:
+                send "&cUsage: /kits delete <name>"
+                stop
+
+            if {kits::%arg-2%::inventory::*} is not set:
+                send "&cThat kit doesn't exist."
+                stop
+
+            delete {kits::%arg-2%::*}
+            remove arg-2 from {kits::*}
+
+            send "&aDeleted kit '&e%arg-2%&a'."
+            stop
+
+        if arg-1 is "claim":
+            if arg-2 is not set:
+                send "&cUsage: /kits claim <kit>"
+                stop
+
+            if {kits::%arg-2%::inventory::*} is not set:
+                send "&cThat kit doesn't exist."
+                stop
+
+            clear player's inventory
+            clear player's armor
+
+            loop 41 times:
+                set slot (loop-number - 1) of player's inventory to {kits::%arg-2%::inventory::%loop-number - 1%}
+
+            set player's armor to {kits::%arg-2%::armor::*}
+
+            send "&aYou claimed the '&e%arg-2%&a' kit."
+            stop
+
+        send "&cUnknown subcommand. Use &e/kits"
+
+on tab complete of "/kits" or "/kit":
+    set tab completions for position 1 to "claim", "create", "delete", "list"
+
+    if tab arg-1 is "claim":
+        set tab completions for position 2 to {kits::*}
+
+    else if tab arg-1 is "delete":
+        if player is op:
+            set tab completions for position 2 to {kits::*}

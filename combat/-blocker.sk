@@ -76,26 +76,13 @@ on craft:
         cancel event
         send "&cThis Recipe has been Disabled."
 
-on enchant:
-    if event-item is mace:
-        cancel event
-
-on left click:
-    if player's tool is mace:
-        remove 1 mace from player
-
-on damage:
-    if attacker's tool is mace:
-        cancel event
-        remove 1 mace from attacker
-
 on crafter craft:
     if event-string = "minecraft:mace":
         cancel event
         loop all players in radius 5 of event-location:
             send "&cNice Try." to loop-player
 
-every 10 seconds:
+every 5 minute:
     loop all players:
         loop all items in loop-player's inventory:
             if loop-item is enchanted with protection 4:
@@ -106,6 +93,10 @@ every 10 seconds:
                 enchant loop-item with thorns 0
             if loop-item is enchanted with fire aspect:
                 enchant loop-item with fire aspect 0
+            if loop-item is enchanted with density:
+                enchant loop-item with density 0
+            if loop-item is enchanted with breach 4:
+                enchant loop-item with breach 3
 
 on right click:
     if player's tool = splash potion of turtle master or lingering potion of turtle master:
@@ -125,7 +116,7 @@ on uncancelled resurrect attempt:
 on death:
     if boolean tag "totemUsed" of custom nbt of victim is true:
         set boolean tag "totemUsed" of custom nbt of victim to false
-
+        
 #every 15 seconds:
  #   loop all players:
   #      if boolean tag "totemUsed" of custom nbt of loop-player is true:

@@ -1,0 +1,45 @@
+function itemHierarchyHammer() :: item:
+    set {_i} to mace named "<#fcd05c>ʜ<#f7cb56>ɪ<#f2c550>ᴇ<#ecc04a>ʀ<#e7ba43>ᴀ<#e2b53d>ʀ<#ddaf37>ᴄ<#d8aa31>ʜ<#d2a42b>ʏ <#c8991f>ʜ<#c39419>ᴀ<#be8e12>ᴍ<#b8890c>ᴍ<#b38306>ᴇ<#ae7e00>ʀ"
+
+    set {_l::1} to "&8just as they remember."
+    set {_l::2} to "%nl%<#fcd05c>ʀɪᴄᴏsʜᴇᴛ"
+    set {_l::3} to "&8🕘 -s <#fcd05c>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7When damaging you have a &f20%% &7chance to deal &fhalf the damage&7 again.%nl%&7You also get pushed up further."
+    set {_l::5} to "%nl%<#fcd05c>ɢɪʟᴅᴇᴅ ᴅᴀsʜ"
+    set {_l::6} to "&8🕘 25s <#fcd05c>• ʀᴍʙ"
+    set {_l::7} to "&7You do a dash forward that goes &f20 blocks&7."
+
+    set boolean tag "hierarchyHammer" of custom nbt of {_i} to true
+
+    set lore of {_i} to {_l::*}
+
+    return {_i} with item flag hide enchants
+
+on right click:
+    if boolean tag "hierarchyHammer" of custom nbt of player's tool is true:
+        if player does not have player's tool on cooldown:
+            play sound "block.anvil.place" with volume 0.5 and pitch 1.5 at player's location
+            play sound "entity.wind_charge.wind_burst" with volume 1 and pitch 1.05 at player's location
+            play sound "entity.experience_orb.pickup" with volume 0.8 and pitch 1.9 at player's location
+            applyPush(player, 0.45, 2.5)
+            if player's gamemode is survival:
+                set the cooldown of mace for player to 25 seconds
+            else:
+                set the cooldown of mace for player to 0.1 seconds
+
+on damage:
+    if fallen distance of attacker >= 5:
+        if boolean tag "hierarchyHammer" of custom nbt of attacker's tool is true:
+            set {_r} to random integer between 1 and 5
+            if {_r} is 1 or 2 or 3 or 4 or 5:
+                applyDamage(victim, damage / 2 , explosion, true)
+                set {_loc} to location 0.5 meters infront of attacker
+                add 1 to y-coordinate of {_loc}
+                draw 5 flash particle using bukkitColor(0,255, 214, 29) at {_loc}
+                wait a tick
+                set tick rate of attacker to 1 and freeze their animations
+                play sound "minecraft:item.mace.smash_air" with pitch 2 to attacker
+                play sound "entity.experience_orb.pickup" with volume 1.2 and pitch 1.9 to attacker
+                wait 6 ticks
+                set tick rate of attacker to 20
+                push attacker upwards at speed 1.25

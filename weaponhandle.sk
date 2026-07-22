@@ -1,4 +1,4 @@
-function itemWeaponHandle() :: item:
+function itemWeaponHandle() :: itemstack:
     set {_i} to breeze rod named "<#5fe2c5>&lWeapon Handle"
 
     return {_i}
