@@ -1,0 +1,15 @@
+function itemCulBoots() :: item:
+    set {_i} to unbreakable netherite boots named "<#fcd05c>C<#f2c652>u<#e8bc48>l <#d4a835>B<#c99d2b>o<#bf9321>o<#b58917>t<#ab7f0d>s"
+
+    set {_l::1} to "&8&oso tuff yo"
+    set {_l::2} to "%nl%<#fcd05c>ɪɴsᴜʟᴀᴛɪᴏɴ"
+    set {_l::3} to "&8🕘 -s <#fcd05c>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7You get &fSpeed IV&7 and &fFire Resistance I"
+
+    set boolean tag "cul_boots" of custom nbt of {_i} to true
+
+    set armor trim of {_i} to armor trim from copper_material and silence_pattern
+
+    set lore of {_i} to {_l::*}
+
+    return {_i} with item flag hide enchants and hide armor trim

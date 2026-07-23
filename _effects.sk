@@ -1,19 +1,24 @@
-every second:
+every 3 second:
     loop all players:
         if boolean tag "cloudsplitter" of custom nbt of loop-player's tool is true:
-            apply ambient weaving 1 to loop-player for 2 seconds replacing the existing effect
-            apply ambient speed 3 to loop-player for 2 seconds replacing the existing effect
+            apply ambient weaving 1 to loop-player for 17 seconds replacing the existing effect
+            apply ambient speed 3 to loop-player for 17 seconds replacing the existing effect
         if boolean tag "shadow_dagger" of custom nbt of loop-player's tool is true:
-            apply ambient invisibility 1 to loop-player for 2 seconds replacing the existing effect
+            apply ambient invisibility 1 to loop-player for 17 seconds replacing the existing effect
         if {-sd.spl.Active::%loop-player%} is set:
-            apply ambient speed 4 to loop-player for 2 seconds replacing the existing effect
+            apply ambient speed 4 to loop-player for 17 seconds replacing the existing effect
         if boolean tag "ancientRune" of custom nbt of loop-player's offhand tool is true:
-            apply ambient water breathing 1 to loop-player for 2 seconds replacing the existing effect
-            apply ambient dolphin's grace 1 to loop-player for 2 seconds replacing the existing effect
+            apply ambient water breathing 1 to loop-player for 17 seconds replacing the existing effect
+            apply ambient dolphin's grace 1 to loop-player for 17 seconds replacing the existing effect
             if loop-player is wet:
-                apply ambient speed 2 to loop-player for 2 seconds replacing the existing effect
-                apply ambient strength 2 to loop-player for 2 seconds replacing the existing effect
-                apply ambient regeneration 3 to loop-player for 2 seconds replacing the existing effect
+                apply ambient speed 2 to loop-player for 17 seconds replacing the existing effect
+                apply ambient strength 2 to loop-player for 17 seconds replacing the existing effect
+                apply ambient regeneration 3 to loop-player for 17 seconds replacing the existing effect
+        if boolean tag "cul_boots" of custom nbt of loop-player's boots is true:
+            apply ambient speed 4 to loop-player for 17 seconds replacing the existing effect
+            apply ambient fire resistance 1 to loop-player for 17 seconds replacing the existing effect
+        if boolean tag "cul_helmet" of custom nbt of loop-player's helmet is true:
+            apply ambient night vision to loop-player for 17 seconds replacing the existing effect
 
 every 0.25 second:
     loop all players:
@@ -23,3 +28,28 @@ every 0.25 second:
             set {_loc} to loop-player's location
             add 2.25 to y-coordinate of {_loc}
             draw 1 dripping water particle at {_loc}
+
+every 2 ticks:
+    loop all players:
+        if boolean tag "cul_boots" of custom nbt of loop-player's boots is true:
+            set {_loc} to loop-player's location
+            add random number between -0.35 and 0.35 to x-coordinate of {_loc}
+            add random number between 0 and 1.8 to y-coordinate of {_loc}
+            add random number between -0.35 and 0.35 to z-coordinate of {_loc}
+
+            draw electric spark particle at {_loc}
+
+            chance of 10%:
+                draw end rod particle at {_loc}
+        if boolean tag "cul_leggings" of custom nbt of loop-player's leggings is true:
+            chance of 1%:
+                set {_loc} to location of loop-player
+                add random number between 0.2 and 1.6 to y-coordinate of {_loc}
+                add random number between -0.2 and 0.2 to x-coordinate of {_loc}
+                add random number between -0.2 and 0.2 to z-coordinate of {_loc}
+                draw lava particle at {_loc}
+            set {_loc2} to location of loop-player
+            add random number between 0.1 and 1.8 to y-coordinate of {_loc2}
+            add random number between -0.35 and 0.35 to x-coordinate of {_loc2}
+            add random number between -0.35 and 0.35 to z-coordinate of {_loc2}
+            draw flame particle at {_loc2}

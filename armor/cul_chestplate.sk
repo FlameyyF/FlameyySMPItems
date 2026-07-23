@@ -6,16 +6,16 @@ function itemCulChestplate() :: item:
     set {_l::3} to "&8🕘 -s <#fcd05c>• ᴘᴀssɪᴠᴇ"
     set {_l::4} to "&7When damaging a &fvictim &7you have a &f10%% &7chance%nl%&7to electrify &fall players &7in a &f10x10&7 radius dealing &f2.5 ❤&7 if wet then &f4.5 ❤"
 
-    set boolean tag "cul_chestplate " of custom nbt of {_i} to true
+    set boolean tag "cul_chestplate" of custom nbt of {_i} to true
 
     set armor trim of {_i} to armor trim from copper_material and silence_pattern
 
     set lore of {_i} to {_l::*}
 
-    return {_i} with item flag hide enchants
+    return {_i} with item flag hide enchants and hide armor trim
 
 on damage:
-    if boolean tag "cul_chestplate " of custom nbt of attacker's chestplate is true:
+    if boolean tag "cul_chestplate" of custom nbt of attacker's chestplate is true:
         chance of 20%:
             loop all players in radius 10 of victim:
                 if loop-player is not attacker:

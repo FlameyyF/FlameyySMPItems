@@ -17,7 +17,9 @@ function itemShardShooter() :: item:
 
 on shoot:
     if boolean tag "shardShooter" of custom nbt of shooter's tool is set:
+        #{-canResonate::%shooter%} is set
         delete {-canResonate::%shooter%}
+        set {-shooter::%event-projectile%} to shooter's uuid
 
         wait 1 tick
         set {_arrow} to projectile
@@ -25,14 +27,16 @@ on shoot:
 
         hide projectile for all entities
 
-        kill {_display}
-
 on damage:
-    attacker is a projectile
-
-    if boolean tag "resonatedArrow" of custom nbt of projectile is true:
-        if victim is a player:
-            set damage to damage * 2
+    projectile is an arrow
+    if boolean tag "resonatedArrow" of nbt of projectile is true:
+        victim is a player
+        
+        if {shatterpointHealth::%attacker%} < 10:
+            add 0.5 to {shatterpointHealth::%attacker%}
+            send "a" to attacker
+            
+        set damage to damage * 2
 
 on projectile hit:
     projectile is an arrow
@@ -53,3 +57,10 @@ every tick:
     loop all projectiles:
         if boolean tag "resonatedArrow" of custom nbt of loop-projectile is true:
             draw dust particle using dustOption(rgb(228, 107, 246), 1) at loop-projectile
+
+every 5 ticks:
+    loop all players:
+        if boolean tag "shardShooter" of custom nbt of loop-player's tool is true:
+            if {shatterpointHealth::%loop-player%} is not set:
+                set {shatterpointHealth::%loop-player%} to 0
+            send action bar "&5❤ %{shatterpointHealth::%loop-player%}%" to loop-player

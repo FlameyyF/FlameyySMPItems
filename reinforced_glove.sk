@@ -54,7 +54,7 @@ on swap item:
             stop
         else:
             cancel event
-            #set {-rg.pu.CD::%player%} to 35
+            set {-rg.pu.CD::%player%} to 35
             drawFlash(player)
             set {_pla} to event-player's name
             set {-isParrying::%player%} to true

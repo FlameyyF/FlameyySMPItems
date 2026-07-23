@@ -12,7 +12,7 @@ function itemCulLeggings() :: item:
 
     set lore of {_i} to {_l::*}
 
-    return {_i} with item flag hide enchants
+    return {_i} with item flag hide enchants and hide armor trim
 
 on damage:
     if boolean tag "cul_leggings" of custom nbt of attacker's leggings is true:
@@ -21,13 +21,15 @@ on damage:
                 stop
             else:
                 add 1 to {statusEffect::burning::%uuid of victim%}
+import:
+    org.bukkit.potion.PotionEffectType
 
 every 10 ticks:
     loop all players:
         if {statusEffect::burning::%uuid of loop-player%} is set:
             set {_dmg} to 0.5 * {statusEffect::burning::%uuid of loop-player%}
 
-            if loop-player has fire resistance:
+            if loop-player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE):
                 stop
 
             set {_epf} to 0

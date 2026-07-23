@@ -138,6 +138,14 @@ function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolea
                 subtract absorption amount of {_p} / 2 from {_dmg}
                 set absorption amount of {_p} to 0
 
+        if {shatterpointHealth::%{_p}%} is set:
+            if {shatterpointHealth::%{_p}%} >= {_dmg}:
+                remove {_dmg} from {shatterpointHealth::%{_p}%}
+                set {_dmg} to 0
+            else:
+                remove {shatterpointHealth::%{_p}%} from {_dmg}
+                set {shatterpointHealth::%{_p}%} to 0
+
         if {_dmg} < 0:
             set {_dmg} to 0
 

@@ -1,0 +1,18 @@
+on load:
+    clear {parsedItems::*}
+    add "flameyysmp:cul_armor_set" to {parsedItems::*}
+    add "flameyysmp:shard_shooter" to {parsedItems::*}
+    add "flameyysmp:hierarchy_hammer" to {parsedItems::*}
+    add "flameyysmp:cloudsplitter" to {parsedItems::*}
+    add "flameyysmp:ancient_rune" to {parsedItems::*}
+    add "flameyysmp:reinforced_glove" to {parsedItems::*}
+    add "flameyysmp:shadow_dagger" to {parsedItems::*}
+    add "flameyysmp:frozen_battleaxe" to {parsedItems::*}
+
+command weapons:
+    permission: op
+    trigger:
+        loop {parsedItems::*}:
+            add 1 to {_amount}
+            send "%loop-value%" to player
+        send "Final Amount: %{_amount}%" 
