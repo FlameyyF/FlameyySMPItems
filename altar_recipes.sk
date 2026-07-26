@@ -227,3 +227,48 @@ on right click:
                 post {_msg} to channel with id "1525264848735305938"
         else:
             send "<#ff5b5b>This Altar has been used!" to player
+    else if event-location is {altar.shard_shooter}:
+        if {altar.shard_shooter.used} is not set:
+            if all:
+                player has 96 gold nugget
+                player has 64 gold ingot
+                player has 32 gold block
+                player has 4 netherite ingot
+                player has 2 breeze rod
+                player has 2 totem of undying
+                player has 16 flow armor trim smithing template
+                player has itemWeaponHandle()
+                player has 16 sentry armor trim smithing template
+                player has 2 heavy core
+            then:
+                remove 96 gold nugget from player
+                remove 64 gold ingot from player
+                remove 32 gold block from player
+                remove 4 netherite ingot from player
+                remove 2 breeze rod from player
+                remove 2 totem of undying from player
+                remove 16 flow armor trim smithing template from player
+                remove itemWeaponHandle() from player
+                remove 16 sentry armor trim smithing template from player
+                remove 2 heavy core from player
+
+                play sound "minecraft:entity.wither.spawn" to all players
+                give player itemHierarchyHammer()
+                broadcast "&6&l%player%&c has crafted the <#fcd05c>ʜ<#f7cb56>ɪ<#f2c550>ᴇ<#ecc04a>ʀ<#e7ba43>ᴀ<#e2b53d>ʀ<#ddaf37>ᴄ<#d8aa31>ʜ<#d2a42b>ʏ <#c8991f>ʜ<#c39419>ᴀ<#be8e12>ᴍ<#b8890c>ᴍ<#b38306>ᴇ<#ae7e00>ʀ"
+
+                set {altar.hierarchy_hammer.used} to true
+
+                if {altar.hierarchy_hammer.display} is set:
+                    kill {altar.hierarchy_hammer.display}
+                    delete {altar.hierarchy_hammer.display}
+
+                create a new message and store it in {_msg}:
+                    make embed:
+                        set title of embed to "Item Crafted!"
+                        set description of embed to "%player% has crafted the Hierarchy Hammer"
+                        set embed color of embed to purple
+                    add last embed to the embeds of the message
+
+                post {_msg} to channel with id "1525264848735305938"
+        else:
+            send "<#ff5b5b>This Altar has been used!" to player

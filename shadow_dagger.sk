@@ -13,7 +13,7 @@ function itemShadowDagger() :: item:
     set {_l::8} to "&7Jumping in this state makes you go way further, and you're immune to fall damage"
 
     set boolean tag "shadow_dagger" of custom nbt of {_i} to true
-
+    
     apply attribute modifier to {_i}:
         attribute: attack damage
         slot: mainhand_slot_group

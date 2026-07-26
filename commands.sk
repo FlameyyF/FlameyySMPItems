@@ -8,6 +8,7 @@ on load:
     add "flameyysmp:reinforced_glove" to {parsedItems::*}
     add "flameyysmp:shadow_dagger" to {parsedItems::*}
     add "flameyysmp:frozen_battleaxe" to {parsedItems::*}
+    add "flameyysmp:axe_of_deceit" to {parsedItems::*   }
 
 command weapons:
     permission: op

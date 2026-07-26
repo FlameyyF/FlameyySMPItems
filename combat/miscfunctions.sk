@@ -46,9 +46,9 @@ function drawShapes(loc: location, startRadius: number, endRadius: number, step:
 
         wait 1 tick
 
-function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolean = false):
+function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolean = false, pierce: boolean = false):
     if {_isTrue} is true:
-
+        
         set {_armorDamage::helmet} to round({_dmg} * 0.9)
         set {_armorDamage::chestplate} to round({_dmg} * 1.2)
         set {_armorDamage::leggings} to round({_dmg} * 1.1)
@@ -61,8 +61,11 @@ function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolea
 
             if {_armorDamage::helmet} < 0:
                 set {_armorDamage::helmet} to 0
-
-            damage helmet of {_p} by round({_armorDamage::helmet})
+            
+            if {_pierce} is true:
+                damage helmet of {_p} by round({_armorDamage::helmet}) * 6.582
+            else:
+                damage helmet of {_p} by round({_armorDamage::helmet})
 
         if chestplate of {_p} is not air:
             set {_unbreaking} to unbreaking level of chestplate of {_p}
@@ -71,8 +74,11 @@ function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolea
 
             if {_armorDamage::chestplate} < 0:
                 set {_armorDamage::chestplate} to 0
-
-            damage chestplate of {_p} by round({_armorDamage::chestplate})
+            
+            if {_pierce} is true:
+                damage chestplate of {_p} by round({_armorDamage::chestplate}) * 6.582
+            else:
+                damage chestplate of {_p} by round({_armorDamage::chestplate})
 
         if leggings of {_p} is not air:
             set {_unbreaking} to unbreaking level of leggings of {_p}
@@ -81,8 +87,11 @@ function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolea
 
             if {_armorDamage::leggings} < 0:
                 set {_armorDamage::leggings} to 0
-
-            damage leggings of {_p} by round({_armorDamage::leggings})
+            
+            if {_pierce} is true:
+                damage leggings of {_p} by round({_armorDamage::leggings}) * 6.582
+            else:
+                damage leggings of {_p} by round({_armorDamage::leggings})
 
         if boots of {_p} is not air:
             set {_unbreaking} to unbreaking level of boots of {_p}
@@ -92,37 +101,41 @@ function applyDamage(p: player, dmg: number, source: damage type, isTrue: boolea
             if {_armorDamage::boots} < 0:
                 set {_armorDamage::boots} to 0
 
-            damage boots of {_p} by round({_armorDamage::boots})
+            if {_pierce} is true:
+                damage boots of {_p} by round({_armorDamage::boots}) * 6.582
+            else:
+                damage boots of {_p} by round({_armorDamage::boots})
 
         set {_heavyArmor} to 0
+        
+        if {_pierce} is false:
+            if helmet of {_p} is diamond helmet or netherite helmet:
+                add 1 to {_heavyArmor}
+            if chestplate of {_p} is diamond chestplate or netherite chestplate:
+                add 1 to {_heavyArmor}
+            if leggings of {_p} is diamond leggings or netherite leggings:
+                add 1 to {_heavyArmor}
+            if boots of {_p} is diamond boots or netherite boots:
+                add 1 to {_heavyArmor}
 
-        if helmet of {_p} is diamond helmet or netherite helmet:
-            add 1 to {_heavyArmor}
-        if chestplate of {_p} is diamond chestplate or netherite chestplate:
-            add 1 to {_heavyArmor}
-        if leggings of {_p} is diamond leggings or netherite leggings:
-            add 1 to {_heavyArmor}
-        if boots of {_p} is diamond boots or netherite boots:
-            add 1 to {_heavyArmor}
+            subtract {_heavyArmor} * 0.25 from {_dmg}
 
-        subtract {_heavyArmor} * 0.25 from {_dmg}
+            set {_prot} to 0
 
-        set {_prot} to 0
+            if helmet of {_p} is set:
+                add protection level of helmet of {_p} to {_prot}
+            if chestplate of {_p} is set:
+                add protection level of chestplate of {_p} to {_prot}
+            if leggings of {_p} is set:
+                add protection level of leggings of {_p} to {_prot}
+            if boots of {_p} is set:
+                add protection level of boots of {_p} to {_prot}
 
-        if helmet of {_p} is set:
-            add protection level of helmet of {_p} to {_prot}
-        if chestplate of {_p} is set:
-            add protection level of chestplate of {_p} to {_prot}
-        if leggings of {_p} is set:
-            add protection level of leggings of {_p} to {_prot}
-        if boots of {_p} is set:
-            add protection level of boots of {_p} to {_prot}
-
-        set {_reduction} to ({_prot} / 4) - 0.5
-        if {_reduction} < 0:
-            set {_reduction} to 0
-        subtract {_reduction} from {_dmg}
-
+            set {_reduction} to ({_prot} / 4) - 0.5
+            if {_reduction} < 0:
+                set {_reduction} to 0
+            subtract {_reduction} from {_dmg}
+            
         set {_resistance} to amplifier of resistance of {_p}
 
         if {_resistance} > 0:

@@ -17,11 +17,16 @@ function itemCulChestplate() :: item:
 on damage:
     if boolean tag "cul_chestplate" of custom nbt of attacker's chestplate is true:
         chance of 20%:
+            draw the shape of a line from attacker's eye to victim:
+                set event-shape's particle to dust particle using dustOption(rgb(100, 219, 255), 0.75)
             loop all players in radius 10 of victim:
                 if loop-player is not attacker:
                     if loop-player is wet:
-                        play sound "entity.lightning_bolt.thunder" at loop-player
+                        strike lightning effect at loop-player
                         applyDamage(loop-player, 4.5, lightning bolt, true)
                     else:
-                        play sound "entity.lightning_bolt.thunder" at loop-player
+                        strike lightning effect at loop-player
                         applyDamage(loop-player, 2.5, lightning bolt, true)
+                if loop-player is not victim:
+                    draw the shape of a line from victim's eye to loop-player:
+                        set event-shape's particle to dust particle using dustOption(rgb(100, 219, 255), 0.75)

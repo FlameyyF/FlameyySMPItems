@@ -1,0 +1,30 @@
+function itemCulHelmet() :: item:
+    set {_i} to unbreakable netherite helmet named "<#fcd05c>C<#f3c753>u<#eabe4a>l <#d8ac39>H<#cfa330>e<#c69a27>l<#bd911f>m<#b48816>e<#ab7f0d>t"
+
+    set {_l::1} to "&8&oi see you over there"
+    set {_l::2} to "%nl%<#fcd05c>ᴘᴇʀᴄᴇᴘᴛɪᴏɴ"
+    set {_l::3} to "&8🕘 -s <#fcd05c>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7You get &fNight Vision&7%nl%&7Entities in a &f32x32&7 radius get &fGlowing&7 for &fthe player"
+
+    set boolean tag "cul_helmet" of custom nbt of {_i} to true
+
+    set armor trim of {_i} to armor trim from copper_material and silence_pattern
+
+    set lore of {_i} to {_l::*}
+
+    return {_i} with item flag hide enchants and hide armor trim
+
+every tick:
+    loop all players:
+        if boolean tag "cul_helmet" of custom nbt of loop-player's helmet is true:
+            loop all entities in radius 32 of loop-player:
+                if loop-entity-2 is not loop-entity-1:
+                    loop-entity-2 is not a item
+                    make loop-entity-2 glow white for loop-entity-1
+                    add uuid of loop-entity-2 to {culHelmetGlow::%uuid of loop-entity-1%::*}
+            loop {culHelmetGlow::%uuid of loop-player%::*}:
+                loop all entities:
+                    if uuid of loop-entity-2 is loop-value-2:
+                        if distance between loop-entity-2 and loop-player-1 > 32:
+                            make loop-entity-2 not glow for loop-player-1
+                            remove loop-value-2 from {culHelmetGlow::%uuid of loop-player%::*}

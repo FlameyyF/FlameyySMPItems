@@ -1,0 +1,122 @@
+function itemAxeOfDeceit() :: item:
+    set {_i} to netherite axe named "<#be98f8>A<#bb94f7>x<#b88ff5>e <#b186f2>o<#ae82f1>f <#a879ee>D<#a575ed>e<#a270eb>c<#9e6cea>e<#9b67e8>i<#9863e7>t"
+
+    set {_l::1} to "&8&oThis thing of darkness I acknowledge mine."
+    set {_l::2} to "%nl%<#9863e7>ʜᴀʟʟᴜᴄɪɴᴀᴛɪᴏɴ"
+    set {_l::3} to "&8🕘 -s <#9863e7>• ᴘᴀssɪᴠᴇ"
+    set {_l::4} to "&7Item Cooldowns are faked to be &f1 second&7 higher%nl%&7Eating has a &f10%% chance&7 to &5&lFAIL.%nl%&7If an attacker has &5Hallucination III&7 they have a &f10%% chance &7for their &fvictim&7 to faint out%nl%&7Hallucinating people have a &f15%% chance&7 to drop &fExperience Bottles&7 or &fSplash Potions&7 instead of use them%nl%&7Random Chance to get &ffake actions"
+    set {_l::5} to "%nl%<#9863e7>ᴘʀᴀɴᴋsᴛᴇʀ"
+    set {_l::6} to "&8🕘 -s <#9863e7>• ᴘᴀssɪᴠᴇ"
+    set {_l::7} to "&7The item is hidden in death messages%nl%&7When a player has &5Hallucination&7 you can stun varying in stack"
+    set {_l::8} to "%nl%<#9863e7>ᴠᴏɪᴅ ʀᴜsʜ"
+    set {_l::9} to "&8🕘 25s <#9863e7>• ᴏғғʜᴀɴᴅ"
+    set {_l::10} to "&7You dash forward, hitting someone applies &5Hallucination II&7 and damages for &f1.5 ❤%nl%&7Hitting again slams them down and deals &f4.5 ❤&7 of piercing damage%nl%&7Every enemy hit with the first part adds &f1 ❤&7 to the slam damage%nl%&7Missing gives &fSlowness II&7 and &fVulnerable I"   
+
+    set lore of {_i} to {_l::*}
+
+    set boolean tag "axe_of_deceit" of custom nbt of {_i} to true
+
+    return {_i} with item flag hide enchants
+
+on death:
+    if boolean tag "axe_of_deceit" of custom nbt of attacker's tool is true:
+        set death message to "%victim% was &5FUCKING PUMMELTED&r by %attacker% using &b[&b&kHAHHAHA! TROLLED&b]"
+
+on swap item:
+    if boolean tag "axe_of_deceit" of custom nbt of player's tool is not true:
+        stop
+    if player has player's tool on cooldown:
+        stop
+
+    cancel event
+    set {voidrush.active::%player's uuid%} to player
+    delete {-didithit::%player's uuid%}
+
+    if {-finalDMG::%player's uuid%} is not set:
+        set {-finalDMG::%player's uuid%} to 4.5   # only initialize on a fresh chain
+    
+    set the cooldown of netherite axe for player to 1.25 seconds
+
+    if {previousHit.VoidRush::%player's uuid%} is set:
+        if player is sneaking:
+            send "a" to player
+            applyPush(player, 0, 5.9522)
+        else:
+            applyPush(player, 0, 2.65)
+    else:
+        applyPush(player, 0, 2.25)
+
+    wait 2.5 seconds
+    if {-didithit::%player's uuid%} is not set:
+        apply slowness 2 to player for 10 seconds replacing the existing effect
+        set {statusEffect::vulnerable::%uuid of player%} to 1
+        delete {-finalDMG::%player's uuid%}   # missed entirely — chain is dead, clear the bank
+    delete {voidrush.active::%player's uuid%}
+    delete {-didithit::%player's uuid%}
+    set the cooldown of netherite axe for player to 32.5 seconds
+
+every tick:
+    loop {voidrush.active::*}:
+        set {_attacker} to loop-value
+        if {_attacker} is not set:
+            continue
+
+        draw 1 of dust particle using dustOption(rgb(175, 89, 255), 0.65) at {_attacker}
+        draw 1 of dust particle using dustOption(rgb(225, 111, 233), 0.65) at {_attacker}
+
+        if {-didithit::%{_attacker}'s uuid%} is set:
+            continue
+
+        loop all players in radius 2 of {_attacker}:
+            if loop-player is {_attacker}:
+                continue
+
+            set {_target} to loop-player
+            set {_targetUUID} to {_target}
+            set {-didithit::%{_attacker}'s uuid%} to true
+
+            wait a tick
+
+            if {statusEffect::hallucination::%{_targetUUID}%} is not set:
+                set {statusEffect::hallucination::%{_targetUUID}%} to 2
+                set {statusEffect::hallucinationTimer::%{_targetUUID}%} to 120
+                set {previousHit.VoidRush::%{_attacker}'s uuid%} to true
+                applyDamage({_target}, 1.5, outside border, true, true)
+                applyKnockback({_attacker}, {_target}, 0.15, 1.00225)
+                add 1 to {-finalDMG::%{_attacker}'s uuid%}
+                set the cooldown of netherite axe for player to 25 seconds
+            else if {statusEffect::hallucination::%{_targetUUID}%} <= 1:
+                set {statusEffect::hallucination::%{_targetUUID}%} to 2
+                set {statusEffect::hallucinationTimer::%{_targetUUID}%} to 120
+                set {previousHit.VoidRush::%{_attacker}'s uuid%} to true
+                applyDamage({_target}, 1.5, outside border, true, true)
+                applyKnockback({_attacker}, {_target}, 0.15, 1.00025)
+                add 1 to {-finalDMG::%{_attacker}'s uuid%}
+            else:
+                applyDamage({_target}, {-finalDMG::%{_attacker}'s uuid%}, outside border, true, true)
+                applyKnockback({_attacker}, {_target}, 0.15, 1.00025)
+                send "%{-finalDMG::%{_attacker}'s uuid%}%" to {_attacker}
+                delete {statusEffect::hallucination::%{_targetUUID}%}
+                delete {previousHit.VoidRush::%{_attacker}'s uuid%}
+            
+            applyPush({_attacker}, 0, 0)
+
+            delete {voidrush.active::%{_attacker}'s uuid%}
+            exit loop
+
+on pick up:
+    if boolean tag "axe_of_deceit" of custom nbt of event-item is true:
+        set {DecietOwner} to player
+
+on death:
+    if {DecietOwner} is uuid of victim:
+        delete {DecietOwner}
+
+on drop:
+    if {DecietOwner} is uuid of event-player:
+        delete {DecietOwner}
+
+every second:
+    loop all players:
+        if {-didithit?::%loop-player%} is set:
+            delete {-didithit?::%loop-player%}

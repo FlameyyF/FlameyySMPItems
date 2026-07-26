@@ -53,3 +53,11 @@ every 2 ticks:
             add random number between -0.35 and 0.35 to x-coordinate of {_loc2}
             add random number between -0.35 and 0.35 to z-coordinate of {_loc2}
             draw flame particle at {_loc2}
+        if {statusEffect::hallucination::%loop-player%} >= 3:
+            make loop-player glow dark purple for player("%{DecietOwner}%")
+        else if {statusEffect::hallucination::%loop-player%} >= 2:
+            make loop-player glow magenta for player("%{DecietOwner}%")
+        else if {statusEffect::hallucination::%loop-player%} >= 1:
+            make loop-player glow pink for player("%{DecietOwner}%")
+        else:
+            make loop-player not glow for player("%{DecietOwner}%")

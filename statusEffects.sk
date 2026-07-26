@@ -1,0 +1,123 @@
+every second:
+    loop all players:
+        if {statusEffect::hallucinationTimer::%uuid of loop-player%} is not 1:
+            remove 1 from {statusEffect::hallucinationTimer::%uuid of loop-player%}
+        else:
+            delete {statusEffect::hallucination::%uuid of loop-player%}
+            delete {statusEffect::hallucinationTimer::%uuid of loop-player%}
+        if {statusEffect::burningTimer::%uuid of loop-player%} is not 1:
+            remove 1 from {statusEffect::burningTimer::%uuid of loop-player%}
+        else:
+            delete {statusEffect::burning::%uuid of loop-player%}
+            delete {statusEffect::burningTimer::%uuid of loop-player%}
+        if {statusEffect::vulnerableTimer::%uuid of loop-player%} is not 1:
+            remove 1 from {statusEffect::vulnerableTimer::%uuid of loop-player%}
+        else:
+            delete {statusEffect::vulnerable::%uuid of loop-player%}
+            delete {statusEffect::vulnerableTimer::%uuid of loop-player%}
+
+command statuseffect <player> <string> <integer> <integer>:
+    permission: op
+    trigger:
+        if arg-2 is "Hallucination":
+            if arg-3 > 3:
+                set {statusEffect::hallucination::%uuid of arg-1%} to 3
+            else:
+                set {statusEffect::hallucination::%uuid of arg-1%} to arg-3
+            set {statusEffect::hallucinationTimer::%uuid of arg-1%} to arg-4
+        if arg-2 is "Burning":
+            set {statusEffect::burning::%uuid of arg-1%} to arg-3
+            set {statusEffect::burningTimer::%uuid of arg-1%} to arg-4
+        if arg-2 is "Vulnerable":
+            set {statusEffect::vulnerable::%uuid of arg-1%} to arg-3
+            set {statusEffect::vulnerableTimer::%uuid of arg-1%} to arg-4
+
+on tab complete for "/statuseffect":
+    set tab completions for position 2 to "Hallucination" and "Burning" and "Vulnerable"
+    if tab arg-2 is "Hallucination":
+        set tab completions for position 3 to "1" and "2" and "3"
+    else:
+        set tab completions for position 3 to "1" and "2" and "3" and "4" and "5" and "6" and "7" and "8" and "9" and "10"
+    set tab completions for position 4 to "1" and "2" and "3" and "4" and "5" and "6" and "7" and "8" and "9" and "10" and "11" and "12" and "13" and "14" and "15" and "16" and "17" and "18" and "19" and "20" and "21" and "22" and "23" and "24" and "25" and "26" and "27" and "28" and "29" and "30" and "31" and "32" and "33" and "34" and "35" and "36" and "37" and "38" and "39" and "40" and "41" and "42" and "43" and "44" and "45" and "46" and "47" and "48" and "49" and "50" and "51" and "52" and "53" and "54" and "55" and "56" and "57" and "58" and "59" and "60" and "61" and "62" and "63" and "64" and "65" and "66" and "67" and "68" and "69" and "70" and "71" and "72" and "73" and "74" and "75" and "76" and "77" and "78" and "79" and "80" and "81" and "82" and "83" and "84" and "85" and "86" and "87" and "88" and "89" and "90" and "91" and "92" and "93" and "94" and "95" and "96" and "97" and "98" and "99" and "100" and "101" and "102" and "103" and "104" and "105" and "106" and "107" and "108" and "109" and "110" and "111" and "112" and "113" and "114" and "115" and "116" and "117" and "118" and "119" and "120"
+
+import:
+    org.bukkit.potion.PotionEffectType
+
+every 10 ticks:
+    loop all players:
+        if {statusEffect::burning::%uuid of loop-player%} is set:
+            set {_dmg} to 0.5 * {statusEffect::burning::%uuid of loop-player%}
+
+            if loop-player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE):
+                stop
+
+            set {_epf} to 0
+
+            add (level of fire protection on helmet of loop-player * 2) to {_epf}
+            add (level of fire protection on chestplate of loop-player * 2) to {_epf}
+            add (level of fire protection on leggings of loop-player * 2) to {_epf}
+            add (level of fire protection on boots of loop-player * 2) to {_epf}
+
+            # Cap at vanilla's maximum EPF contribution (20)
+            if {_epf} > 20:
+                set {_epf} to 20
+
+            # 4% reduction per EPF (up to 80%)
+            set {_dmg} to {_dmg} * (1 - ({_epf} * 0.04))
+
+            damage loop-player by {_dmg}
+
+every 5 tick:
+    loop all players:
+        if {statusEffect::burning::%uuid of loop-player%} is set:
+            set {_level} to {statusEffect::burning::%uuid of loop-player%}
+
+            # Flame
+            loop ({_level} * 3) times:
+                set {_loc} to location of loop-player
+                add random number between 0.1 and 1.8 to y-coordinate of {_loc}
+                add random number between -0.35 and 0.35 to x-coordinate of {_loc}
+                add random number between -0.35 and 0.35 to z-coordinate of {_loc}
+                draw flame particle at {_loc}
+
+            # Smoke
+            loop max(1, {_level}) times:
+                set {_loc} to location of loop-player
+                add random number between 0.6 and 2.0 to y-coordinate of {_loc}
+                add random number between -0.3 and 0.3 to x-coordinate of {_loc}
+                add random number between -0.3 and 0.3 to z-coordinate of {_loc}
+                draw smoke particle at {_loc}
+
+            # Campfire smoke (higher levels)
+            if {_level} >= 3:
+                loop floor({_level} / 2) times:
+                    set {_loc} to location of loop-player
+                    add random number between 1.2 and 2.2 to y-coordinate of {_loc}
+                    add random number between -0.25 and 0.25 to x-coordinate of {_loc}
+                    add random number between -0.25 and 0.25 to z-coordinate of {_loc}
+                    draw campfire_cosy_smoke particle at {_loc}
+
+            # Lava embers
+            if {_level} >= 4:
+                loop floor({_level} / 2) times:
+                    set {_loc} to location of loop-player
+                    add random number between 0.2 and 1.6 to y-coordinate of {_loc}
+                    add random number between -0.2 and 0.2 to x-coordinate of {_loc}
+                    add random number between -0.2 and 0.2 to z-coordinate of {_loc}
+                    draw lava particle at {_loc}
+
+            # Ash for very high levels
+            if {_level} >= 6:
+                loop floor({_level} / 2) times:
+                    set {_loc} to location of loop-player
+                    add random number between 0.5 and 2.0 to y-coordinate of {_loc}
+                    add random number between -0.35 and 0.35 to x-coordinate of {_loc}
+                    add random number between -0.35 and 0.35 to z-coordinate of {_loc}
+                    draw ash particle at {_loc}
+
+on damage:
+    if {statusEffect::vulnerable::%uuid of victim%} is set:
+        cancel event
+        set {_lvl} to {statusEffect::vulnerable::%uuid of victim%}
+        set {_dmg} to damage + (0.15 * {_lvl})
+        damage victim by {_dmg}

@@ -63,11 +63,11 @@ on load:
     delete {registeredAltars::*}
     delete {_lines::*}
     add "<#ffffff>C<#f2fdfa>l<#e4faf5>o<#d7f8f1>u<#caf5ec>d<#bcf3e7>s<#aff1e2>p<#a2eedd>l<#94ecd8>i<#87e9d4>t<#7ae7cf>t<#6ce4ca>e<#5fe2c5>r" to {_lines::*}
-    add "&724x &fFlow Armor Trim" to {_lines::*}
     add "&748x &fWind Charge" to {_lines::*}
     add "&78x &fBreeze Rod" to {_lines::*}
     add "&71x &fDiamond Sword" to {_lines::*}
     add "&74x &fNetherite Ingot" to {_lines::*}
+    add "&724x &eFlow Armor Trim" to {_lines::*}
     add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
     add "&71x &dHeavy Core" to {_lines::*}
     registerAltar("cloudsplitter", "Cloudsplitter", itemCloudsplitter(), {_lines::*})
@@ -102,10 +102,10 @@ on load:
     add "&732x &fPrismarine Shards" to {_lines::*}
     add "&72x &fHeart of the Sea" to {_lines::*}
     add "&78x &fNautilus Shell" to {_lines::*}
-    add "&71x &fTrident" to {_lines::*}
-    add "&716x &bTide Armor Trim" to {_lines::*}
-    add "&716x &bFlow Armor Trim" to {_lines::*}
-    add "&78x &bEcho Shard" to {_lines::*}
+    add "&716x &eTide Armor Trim" to {_lines::*}
+    add "&716x &eFlow Armor Trim" to {_lines::*}
+    add "&71x &bTrident" to {_lines::*}
+    add "&78x &eEcho Shard" to {_lines::*}
     add "&72x &bEnchanted Golden Apple" to {_lines::*}
     registerAltar("ancient_rune", "Ancient Rune", itemAncientRune(), {_lines::*})
 
@@ -115,7 +115,7 @@ on load:
     add "&732x &fIron Block" to {_lines::*}
     add "&74x &fNetherite Ingot" to {_lines::*}
     add "&71x &fDiamond Sword" to {_lines::*}
-    add "&716x &bBolt Armor Trim" to {_lines::*}
+    add "&716x &eBolt Armor Trim" to {_lines::*}
     add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
     add "&71x &dHeavy Core" to {_lines::*}
     add "&716x &dSilence Armor Trim" to {_lines::*}
@@ -129,11 +129,58 @@ on load:
     add "&74x &fNetherite Ingot" to {_lines::*}
     add "&71x &fCrossbow" to {_lines::*}
     add "&72x &eTotem of Undying" to {_lines::*}
-    add "&716x &bSentry Armor Trim" to {_lines::*}
+    add "&716x &eSentry Armor Trim" to {_lines::*}
     add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
     add "&716x &dSilence Armor Trim" to {_lines::*}
 
     registerAltar("shard_shooter", "Shard Shooter", itemShardShooter(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#fcd05c>ʜ<#f7cb56>ɪ<#f2c550>ᴇ<#ecc04a>ʀ<#e7ba43>ᴀ<#e2b53d>ʀ<#ddaf37>ᴄ<#d8aa31>ʜ<#d2a42b>ʏ <#c8991f>ʜ<#c39419>ᴀ<#be8e12>ᴍ<#b8890c>ᴍ<#b38306>ᴇ<#ae7e00>ʀ" to {_lines::*}
+    add "&796x &fGold Nugget" to {_lines::*}
+    add "&764x &fGold Ingot" to {_lines::*}
+    add "&732x &fGold Block" to {_lines::*}
+    add "&72x &fBreeze Rod" to {_lines::*}
+    add "&74x &fNetherite Ingot" to {_lines::*}
+    add "&72x &eTotem of Undying" to {_lines::*}
+    add "&716x &eFlow Armor Trim" to {_lines::*}
+    add "&716x &eSentry Armor Trim" to {_lines::*}
+    add "&71x <#5fe2c5>&lWeapon Handle" to {_lines::*}
+    add "&72x &dHeavy Core" to {_lines::*}
+
+    registerAltar("hierarchy_hammer", "Hierarchy Hammer", itemHierarchyHammer(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#fcd05c>C<#f2c652>u<#e8bc48>l <#d4a835>B<#c99d2b>o<#bf9321>o<#b58917>t<#ab7f0d>s" to {_lines::*}
+    add "&71x &fDiamond Boots" to {_lines::*}
+    add "&796x &fCopper Ingot" to {_lines::*}
+    add "&716x &fLightning Rod" to {_lines::*}
+    add "&74x &fBlaze Rod" to {_lines::*}
+    add "&76x &fNetherite Ingot" to {_lines::*}
+
+    registerAltar("cul_boots", "Cul Boots", itemCulBoots(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#fcd05c>C<#f5c955>u<#edc14e>l <#dfb33f>L<#d7ab38>e<#d0a431>g<#c89c2a>g<#c19523>i<#ba8e1b>n<#b28614>g<#ab7f0d>s" to {_lines::*}
+    add "&71x &fDiamond Leggings" to {_lines::*}
+    add "&796x &fCopper Ingot" to {_lines::*}
+    add "&764x &fFire Charge" to {_lines::*}
+    add "&732x &fBlaze Rod" to {_lines::*}
+    add "&78x &fMagma Cream" to {_lines::*}
+    add "&76x &fNetherite Ingot" to {_lines::*}
+
+    registerAltar("cul_leggings", "Cul Leggings", itemCulLeggings(), {_lines::*})
+
+    delete {_lines::*}
+    add "<#fcd05c>C<#f5c955>u<#edc14e>l <#dfb33f>L<#d7ab38>e<#d0a431>g<#c89c2a>g<#c19523>i<#ba8e1b>n<#b28614>g<#ab7f0d>s" to {_lines::*}
+    add "&71x &fDiamond Leggings" to {_lines::*}
+    add "&796x &fCopper Ingot" to {_lines::*}
+    add "&764x &fFire Charge" to {_lines::*}
+    add "&732x &fLightning Rod" to {_lines::*}
+    add "&716x &fSculk Catalyst" to {_lines::*}
+    add "&76x &fNetherite Ingot" to {_lines::*}
+
+    registerAltar("cul_chestplate", "Cul Chestplate", itemCulChestplate(), {_lines::*})
 
 command /spawnaltar <text>:
     permission: op

@@ -9,7 +9,7 @@ function itemFrozenBattleaxe() :: item:
     set {_l::4} to "&7Every hit you add &f2.5s&7 of &fFreeze&7 to your target."
     set {_l::5} to "%nl%<#a4ffeb>ɪᴄᴇᴄᴏʟᴅ sʟᴀsʜ"
     set {_l::6} to "&8🕘 1m 15s <#a4ffeb>• ᴏғғʜᴀɴᴅ"
-    set {_l::8} to "&7You strike forward dealing &f4.5 ❤&7 and give &fSlowness III"
+    set {_l::8} to "&7You strike forward dealing &f4.5 ❤&7 of piercing damage and give &fSlowness III"
 
     set lore of {_i} to {_l::*}
 
@@ -41,7 +41,7 @@ on swap item:
             if loop-player is not player:
                 if {-isParrying::%loop-player%} is not set:
                     apply slowness 3 to loop-player for 10 seconds
-                    applyDamage(loop-player, 9, freeze, true)
+                    applyDamage(loop-player, 4.5, freeze, true, true)
                     wait a tick
                     add 50 seconds to freeze time of loop-player
                 else:
@@ -54,7 +54,7 @@ on swap item:
                     call event {_event}
                     draw 50 snowflake particle with extra 1.25 at {_loc}
                     applyKnockback(player, player, 1.25, 1)
-                    applyDamage(player, 9, freeze, true)
+                    applyDamage(player, 4.5, freeze, true, true)
         set {-fBa.ics.CD::%player%} to 75
 
 every second:
